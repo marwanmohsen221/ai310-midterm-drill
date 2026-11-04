@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI310 Midterm Drill</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@500;600;700&display=swap">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+/* Layout: one answer-sheet column; sticky model tabs; each question is a sheet row with OMR bubbles, explanation unfolds under it */
+:root{
+  --paper:#EEF1F7; --sheet:#FFFFFF; --ink:#16213A; --muted:#5A6580; --line:#D7DCE7;
+  --accent:#2747C9; --accent-soft:#E6EBFB; --pencil:#26314A;
+  --ok:#1C7A4D; --ok-bg:#E2F2E9; --bad:#BE3426; --bad-bg:#FBE6E2;
+  --flag:#A86A12; --flag-bg:#FCF1DA; --fig:#F5F7FB;
+  --f-display:"Readex Pro","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0D1220; --sheet:#151C2D; --ink:#E4E8F2; --muted:#9AA4BD; --line:#283149;
+  --accent:#8CA2FF; --accent-soft:#1E2848; --pencil:#CBD4EA;
+  --ok:#52C78F; --ok-bg:#11301F; --bad:#FF8170; --bad-bg:#3A1A16;
+  --flag:#F2B84E; --flag-bg:#3A2C10; --fig:#10172A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0D1220; --sheet:#151C2D; --ink:#E4E8F2; --muted:#9AA4BD; --line:#283149;
+  --accent:#8CA2FF; --accent-soft:#1E2848; --pencil:#CBD4EA;
+  --ok:#52C78F; --ok-bg:#11301F; --bad:#FF8170; --bad-bg:#3A1A16;
+  --flag:#F2B84E; --flag-bg:#3A2C10; --fig:#10172A; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:820px;margin:0 auto}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{padding-block:28px 14px;display:grid;gap:6px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--muted);direction:ltr;text-align:right}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,5vw,36px);line-height:1.2;margin:0;text-wrap:balance}
+.lede{margin:0;color:var(--muted);max-width:62ch}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);padding-block:10px;border-bottom:1px solid var(--line);display:grid;gap:10px}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--sheet);border-radius:999px;padding:5px 13px;cursor:pointer;font-family:var(--f-mono);font-size:13px;direction:ltr;white-space:nowrap}
+.tab small{color:var(--muted);margin-inline-start:4px}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.tab[aria-selected="true"] small{color:inherit;opacity:.75}
+.tab.rev{font-family:var(--f-body);border-color:var(--flag);color:var(--flag)}
+.tab.rev[aria-selected="true"]{background:var(--flag);color:var(--sheet);border-color:var(--flag)}
+.row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--sheet)}
+.seg button{border:0;background:none;padding:5px 12px;cursor:pointer;font-size:13.5px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.prog{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.prog b{color:var(--ink)}
+
+.sheet-head{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;justify-content:space-between;margin:22px 0 10px}
+.sheet-head h2{font-family:var(--f-display);font-weight:600;font-size:20px;margin:0}
+.sheet-head span{font-family:var(--f-mono);font-size:12px;color:var(--muted);direction:ltr}
+
+.score{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:12px;margin-bottom:14px}
+.score .big{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.score .num{font-family:var(--f-display);font-size:40px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;direction:ltr}
+.score .pct{font-family:var(--f-mono);color:var(--muted)}
+.score .verdict{font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--bad);color:var(--bad);background:var(--bad-bg);border-radius:8px;padding:2px 9px;font-family:var(--f-mono);font-size:12.5px;cursor:pointer;direction:ltr}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--line);background:var(--sheet);border-radius:10px;padding:7px 14px;cursor:pointer;font-size:14px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.btn.flagbtn{border-color:var(--flag);color:var(--flag)}
+
+.q{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;margin-bottom:12px;scroll-margin-top:120px}
+.q.is-ok{border-inline-start:4px solid var(--ok)}
+.q.is-bad{border-inline-start:4px solid var(--bad)}
+.q.is-skip{border-inline-start:4px solid var(--muted)}
+.qmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px}
+.qn{font-family:var(--f-mono);font-weight:600;font-size:13px;direction:ltr}
+.tag{font-size:12px;border-radius:6px;padding:1px 8px;background:var(--accent-soft);color:var(--accent);direction:ltr}
+.tag.exam{background:var(--flag-bg);color:var(--flag)}
+.tag.tf{background:var(--fig);color:var(--muted);border:1px solid var(--line)}
+.slide{font-family:var(--f-mono);font-size:12px;color:var(--muted);direction:ltr}
+.star{margin-inline-start:auto;border:1px solid var(--line);background:none;border-radius:8px;padding:2px 10px;cursor:pointer;font-size:13px;color:var(--muted);white-space:nowrap}
+.star[aria-pressed="true"]{border-color:var(--flag);background:var(--flag-bg);color:var(--flag);font-weight:600}
+.qtext{direction:ltr;text-align:left;font-size:15.5px;line-height:1.6;margin:0 0 10px;font-family:var(--f-body)}
+pre.fig{direction:ltr;text-align:left;background:var(--fig);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:var(--f-mono);font-size:12.5px;line-height:1.45;overflow-x:auto;margin:0 0 12px}
+.opts{display:grid;gap:6px;direction:ltr}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;border:1px solid var(--line);background:none;border-radius:10px;padding:8px 10px;cursor:pointer;line-height:1.5}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.bub{flex:0 0 26px;height:26px;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+.opt .t{min-width:0}
+.opt.sel .bub{background:var(--pencil);border-color:var(--pencil);color:var(--sheet)}
+.opt.sel{border-color:var(--pencil)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.right .bub{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.wrong .bub{background:var(--bad);border-color:var(--bad);color:#fff}
+.opt .mark{margin-left:auto;font-size:12px;font-weight:600;white-space:nowrap;padding-left:8px}
+.opt.right .mark{color:var(--ok)} .opt.wrong .mark{color:var(--bad)}
+
+.exp{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px;display:grid;gap:10px}
+.exp h4{margin:0;font-family:var(--f-display);font-weight:600;font-size:14px;color:var(--muted)}
+.exp p{margin:0}
+.ans{background:var(--ok-bg);color:var(--ok);border-radius:10px;padding:8px 12px;font-weight:600}
+.ans span{direction:ltr;unicode-bidi:isolate}
+.why{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.why li{display:flex;gap:8px;align-items:flex-start}
+.why .l{flex:0 0 auto;font-family:var(--f-mono);font-size:12.5px;border-radius:6px;padding:0 7px;border:1px solid var(--line);direction:ltr}
+.why li.c .l{border-color:var(--ok);color:var(--ok)}
+.why li.x .l{border-color:var(--bad);color:var(--bad)}
+.why li.me{font-weight:600}
+.tip{background:var(--flag-bg);border-radius:10px;padding:8px 12px}
+.tip b{color:var(--flag)}
+.hint{font-size:13px;color:var(--muted)}
+
+.submit{display:grid;gap:8px;justify-items:start;margin-top:6px}
+.warn{color:var(--bad);font-size:14px}
+.empty{background:var(--sheet);border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--muted)}
+.tab.guide-tab{font-family:var(--f-body);border-color:var(--accent);color:var(--accent)}
+.tab.guide-tab[aria-selected="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 16px}
+.toc a{font-size:13px;color:var(--accent);background:var(--accent-soft);border-radius:8px;padding:3px 10px;text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.gsec{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px;scroll-margin-top:130px}
+.gsec h3{font-family:var(--f-display);font-weight:600;font-size:19px;margin:0 0 10px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;text-wrap:balance}
+.gsec h3 .ln{font-family:var(--f-mono);font-size:12px;font-weight:400;color:var(--muted);direction:ltr}
+.gsec h4{font-family:var(--f-display);font-weight:600;font-size:15px;margin:16px 0 6px;color:var(--accent)}
+.gsec p{margin:0 0 8px;max-width:70ch}
+.gsec ul,.gsec ol{margin:0;padding-inline-start:20px;display:grid;gap:5px}
+.gsec b{font-weight:600}
+.tw{overflow-x:auto;margin:8px 0 10px}
+.tw table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:440px}
+.tw th,.tw td{border:1px solid var(--line);padding:6px 9px;vertical-align:top;text-align:start}
+.tw thead th{background:var(--fig);font-family:var(--f-display);font-weight:600}
+.tw tbody th{background:var(--fig);font-family:var(--f-mono);font-weight:600;font-size:12.5px;white-space:nowrap}
+.tw small{color:var(--muted)}
+.terms td:first-child{direction:ltr;text-align:left;font-family:var(--f-mono);font-size:12.5px;white-space:nowrap}
+.gsec.key{border-color:var(--accent)}
+.gsec.key ol{gap:7px}
+.gsec.hints{background:var(--flag-bg);border-color:var(--flag)}
+.gsec.hints h3{color:var(--flag)}
+footer{margin-top:28px;color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:no-preference){.exp{animation:fade .18s ease-out}@keyframes fade{from{opacity:.4}to{opacity:1}}}
+</style>
+</head>
+<body>
+
+<div class="wrap" dir="rtl" lang="ar">
+  <header class="top">
+    <div class="eyebrow">AI310 &amp; CS361 · Intro. to Artificial Intelligence · Lectures 0–6 · Slides 1–320</div>
+    <h1>AI310 Midterm Drill</h1>
+    <p class="lede">100 سؤال MCQ وTrue/False على شكل الميدترم، مقسّمين 7 نماذج. ابدأ بتاب «الشرح» لو عايز تراجع المنهج بسرعة. اختار إجابتك، وبعدين سلّم وشوف السكور. علّم ★ على أي سؤال مش فاهمه وهتلاقيه في تاب المراجعة بالشرح كامل.</p>
+  </header>
+
+  <nav class="bar" aria-label="Models">
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="row">
+      <div class="seg" role="group" aria-label="Mode">
+        <button type="button" id="m-exam">وضع الامتحان</button>
+        <button type="button" id="m-study">وضع المذاكرة</button>
+      </div>
+      <div class="prog" id="prog"></div>
+    </div>
+  </nav>
+
+  <main id="main"></main>
+<section id="guide" class="guide" hidden>
+  <div class="sheet-head"><h2>الشرح المختصر</h2><span>Lectures 1 · 2 · 3 · 5 · 6</span></div>
+  <p class="hint">شرح بسيط للمنهج كله لحد سلايد 320، وفي الآخر أهم النقط وأهم المصطلحات وهنتات الامتحان. اقراه الأول، وبعدها حل النماذج.</p>
+
+  <nav class="toc" aria-label="Contents">
+    <a href="#g1">1. يعني إيه AI</a><a href="#g2">2. Agents & Environments</a><a href="#g3">3. ML, Data Mining & Big Data</a><a href="#g4">4. Search & State Space</a><a href="#g5">5. Blind Search</a><a href="#g6">6. Heuristic Search</a><a href="#g7">7. Adversarial Search</a><a href="#gk">أهم النقط</a><a href="#gt">أهم المصطلحات</a><a href="#gh">هنتات الامتحان</a>
+  </nav>
+
+  <!-- ===== 1 ===== -->
+  <article class="gsec" id="g1">
+    <h3><span class="ln">Lecture 1</span> يعني إيه Artificial Intelligence؟</h3>
+    <p><b>Intelligence</b> في أبسط تعريف (Webster) هي <i>the capacity to learn and solve problems</i>، يعني القدرة إنك تتعلم وتحل مشاكل جديدة، وتتصرف بعقل (rationally)، أو تتصرف زي البني آدم. <b>John McCarthy</b> هو اللي سمّى المجال «AI» واخترع لغة <b>LISP</b>، وعرّف الـ AI إنه علم وهندسة صناعة machines ذكية.</p>
+
+    <h4>الأربع approaches (اتأكد إنك حافظ الجدول ده)</h4>
+    <div class="tw"><table>
+      <thead><tr><th></th><th>Humanly (نقلّد الإنسان)</th><th>Rationally (نعمل الصح)</th></tr></thead>
+      <tbody>
+        <tr><th>Thinking</th><td><b>Thinking Humanly</b><br>Cognitive Modelling approach<br><small>Bellman · Haugeland</small></td><td><b>Thinking Rationally</b><br>Laws-of-Thought approach (Logic)<br><small>Charniak &amp; McDermott · Winston</small></td></tr>
+        <tr><th>Acting</th><td><b>Acting Humanly</b><br>Turing Test approach<br><small>Rich &amp; Knight · Kurzweil</small></td><td><b>Acting Rationally</b><br>Rational Agent approach<br><small>Nilsson · Poole</small></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>Acting Humanly: Turing Test</h4>
+    <ul>
+      <li>Turing (1950) في ورقة <i>Computing Machinery and Intelligence</i>: سؤال «Can machines think?» هو هو «Can machines behave intelligently?».</li>
+      <li><b>Imitation Game:</b> بني آدم (interrogator) بيكتب أسئلة وبيستقبل ردود مكتوبة. لو مقدرش يعرف إن اللي بيرد machine، تبقى الـ machine نجحت.</li>
+      <li><b>Total Turing Test:</b> نفس الاختبار + الجانب الفيزيائي، يعني محتاج كمان <b>Computer Vision</b> و<b>Robotics</b>.</li>
+      <li>ليه نقلّد الإنسان أصلًا؟ لأن الإنسان لسه هو الـ Gold Standard في مهام كتير.</li>
+      <li><b>BabyX:</b> طفل افتراضي بيتعلم بالـ <b>Reinforcement Learning</b> (مكافأة وعقاب) وبيستخدم <b>Affective Computing</b> (يفهم ويحاكي المشاعر).</li>
+    </ul>
+
+    <h4>Chinese Room و Strong vs Weak AI</h4>
+    <ul>
+      <li><b>John Searle</b>: واحد في أوضة معاه كتاب تعليمات، بيستقبل رموز صيني ويطلّع ردود صح من غير ما يفهم ولا كلمة. نفس الكلام على الـ computer: بينفّذ program بس.</li>
+      <li>من غير <b>understanding (intentionality)</b> مفيش thinking ولا mind، وبالتالي <b>Strong AI is false</b>.</li>
+      <li><b>Weak AI:</b> نقدر <u>نحاكي</u> (simulate) ذكاء الإنسان. <b>Strong AI:</b> نقدر نعمل ذكاء حقيقي فيه consciousness وself-awareness وfree-will.</li>
+      <li><b>ANI</b> = task واحدة بشكل ممتاز (إحنا هنا دلوقتي) ← <b>AGI</b> = يفكر زي العقل البشري ← <b>ASI</b> = أذكى من البشر.</li>
+    </ul>
+
+    <h4>Thinking Humanly و Thinking Rationally</h4>
+    <ul>
+      <li><b>Thinking Humanly:</b> نفهم المخ كـ information processing machine، ونكتب نظرية للعقل كـ program ونقارنها بسلوك الإنسان. مرتبطة بالـ Cognitive Science والـ Neuroscience، واسمها كمان <b>descriptive approaches</b>.</li>
+      <li><b>Thinking Rationally:</b> الـ <b>Logic</b>، يعني استنتاج صحيح دايمًا (Socrates is a man…). أمثلته: Propositional Logic (AND / OR / NOT)، وLogic Programming (<b>Prolog</b>: facts + rules + queries)، و<b>Semantic Networks</b> (graph: concepts = nodes، relations = edges).</li>
+      <li>مشاكلها: صعب نكتب العالم الحقيقي بالـ logic، والـ <b>uncertainty</b>، والـ computational complexity، وإن «rational behaviour» كتير مالوش علاقة بالـ logic.</li>
+    </ul>
+
+    <h4>Acting Rationally: Intelligent Agents</h4>
+    <ul>
+      <li>ليه؟ لأن لازم نتصرف حتى لو مفيش حاجة صح مثبتة (reasoning under uncertainty)، وكمان فيه سلوك reactive (instinct).</li>
+      <li>الـ intelligent agent (Poole &amp; Mackworth): أفعاله مناسبة لأهدافه، flexible، بيتعلم من الخبرة، وبياخد أحسن قرار في حدود قدراته (<b>bounded rationality</b>).</li>
+      <li>بنسيب شرط <b>cognitive plausibility</b>، يعني مش لازم نفكر زي الإنسان. زي الطيارة اللي اتعملت بالـ aerodynamics مش بتقليد الطير.</li>
+      <li><b>Robots</b> = agents ليها وجود فيزيائي. <b>Interface agents</b> = software (recommender systems، tutoring systems)، وهي اللي بنركّز عليها في الكورس.</li>
+    </ul>
+  </article>
+
+  <!-- ===== 2 ===== -->
+  <article class="gsec" id="g2">
+    <h3><span class="ln">Lecture 2</span> Intelligent Agents & Environments</h3>
+    <p><b>Agent</b> = أي حاجة بتحس بالبيئة عن طريق <b>Sensors</b>، وبتأثر فيها عن طريق <b>Actuators</b>. والدورة: Sense ← Reason ← Act ← Get Feedback ← Learn.</p>
+    <p><b>Vacuum agent:</b> الـ percept = [location, status] زي [A, Dirty]، والـ actions = Left / Right / Suck / NoOp. لو Dirty يبقى Suck، ولو في A يروح Right، ولو في B يروح Left. عدد الـ states = n·2ⁿ (لو مكانين يبقوا 8).</p>
+    <p><b>Rational agent:</b> بيختار الـ action اللي متوقع يعمل maximize للـ <b>performance measure</b> (اسمه كمان utility function، وهو objective criterion for success).</p>
+
+    <h4>PEAS</h4>
+    <div class="tw"><table>
+      <thead><tr><th>الحرف</th><th>معناه</th><th>Autonomous Taxi</th><th>Spam Filter</th></tr></thead>
+      <tbody>
+        <tr><th>P</th><td>بنقيس النجاح بإيه</td><td>safe, fast, legal, comfortable, profit</td><td>minimize FP &amp; FN</td></tr>
+        <tr><th>E</th><td>العالم اللي فيه الـ agent</td><td>roads, traffic, pedestrians, customers</td><td>email account, server</td></tr>
+        <tr><th>A</th><td>بيعمل بإيه</td><td>steering, accelerator, brake, signal, horn</td><td>mark as spam, delete</td></tr>
+        <tr><th>S</th><td>بيحس بإيه</td><td>cameras, LIDAR, GPS, speedometer, keyboard</td><td>incoming messages</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>False Positive و False Negative</h4>
+    <ul>
+      <li><b>FP (Type I error):</b> قلت «أيوه» والحقيقة «لأ»، زي «You’re pregnant» لراجل، أو إيميل مهم راح spam.</li>
+      <li><b>FN (Type II error):</b> قلت «لأ» والحقيقة «أيوه»، زي «You’re not pregnant» لست حامل، أو مرض اتفوّت.</li>
+    </ul>
+
+    <h4>Goal-based vs Cost-based</h4>
+    <ul>
+      <li><b>Goal-based:</b> الـ actions بتعتمد على الهدف، زي روبوت رايح أوضة 179.</li>
+      <li><b>Cost-based:</b> بيقلّل تكلفة القرارات الغلط على المدى الطويل، وكل نوع error ليه وزن. مثال الـ spam: Agent 1 غلط 12 مرة بس ضيّع 11 إيميل مهم، فهو أسوأ من Agent 2 اللي غلط 38 مرة كلها spam دخل الـ inbox.</li>
+    </ul>
+
+    <h4>Environment Types</h4>
+    <ul>
+      <li><b>Fully vs Partially Observable:</b> الـ sensors شايفة الحالة كلها ولا لأ؟</li>
+      <li><b>Deterministic vs Stochastic (vs Strategic):</b> الحالة الجاية متحددة ولا فيها عشوائية؟ والـ Strategic = deterministic ما عدا حركات الخصم.</li>
+      <li><b>Episodic vs Sequential:</b> قرارات منفصلة ولا كل قرار بيأثر على اللي بعده؟</li>
+      <li><b>Static vs Dynamic (vs Semi-dynamic):</b> العالم بيتغير وانت بتفكر؟ والـ Semi-dynamic = البيئة ثابتة بس الـ score بيتأثر بالوقت (زي الشطرنج بالساعة).</li>
+      <li><b>Discrete vs Continuous</b>، و<b>Single vs Multi-agent</b>.</li>
+      <li><b>Known vs Unknown:</b> عارف قوانين البيئة ولا لأ. دي صفة في معرفة الـ agent، مش في البيئة.</li>
+    </ul>
+    <div class="tw"><table>
+      <thead><tr><th></th><th>Word Jumble</th><th>Chess + clock</th><th>Scrabble</th><th>Driving</th></tr></thead>
+      <tbody>
+        <tr><th>Observable</th><td>Fully</td><td>Fully</td><td>Partially</td><td>Partially</td></tr>
+        <tr><th>Deterministic</th><td>Deterministic</td><td>Strategic</td><td>Stochastic</td><td>Stochastic</td></tr>
+        <tr><th>Episodic</th><td>Episodic</td><td>Sequential</td><td>Sequential</td><td>Sequential</td></tr>
+        <tr><th>Static</th><td>Static</td><td>Semi-dynamic</td><td>Static</td><td>Dynamic</td></tr>
+        <tr><th>Discrete</th><td>Discrete</td><td>Discrete</td><td>Discrete</td><td>Continuous</td></tr>
+        <tr><th>Agents</th><td>Single</td><td>Multi</td><td>Multi</td><td>Multi</td></tr>
+      </tbody>
+    </table></div>
+    <p class="hint">والألغاز (N-Queens وSudoku و8-puzzle): Fully, Deterministic, Sequential, Static, Discrete, Single.</p>
+  </article>
+
+  <!-- ===== 3 ===== -->
+  <article class="gsec" id="g3">
+    <h3><span class="ln">Lecture 2</span> ML, Data Mining & Big Data</h3>
+    <ul>
+      <li><b>Learning agent:</b> بيغيّر نفسه من الـ training examples أو الـ feedback، عشان الـ average utility بتاعته تزيد مع الوقت.</li>
+      <li><b>AI ⊃ ML ⊃ DL:</b> الـ Deep Learning جزء من الـ ML، والـ ML جزء من الـ AI. والـ DL = hierarchy of layers بتطلّع features أكثر abstraction.</li>
+      <li><b>ML vs Data Mining:</b> الـ ML بيعمل <u>prediction</u> من known properties، والـ DM بيعمل <u>discovery</u> لـ unknown properties، والـ DM هو الـ analysis step في <b>KDD</b>.</li>
+      <li><b>Data Science</b> = statistics + data processing + ML + visualization + business analytics + big data… وأمثلة الـ empirical (من الداتا مش من النظرية): الفرتيليزر (experimental data)، والـ Streptomycin (randomized trials)، والتدخين (observational studies)، والـ Moneyball (Oakland A’s 2001).</li>
+    </ul>
+    <h4>خريطة الـ ML (مين تبع مين)</h4>
+    <div class="tw"><table>
+      <thead><tr><th>النوع</th><th>الـ task</th><th>أمثلة</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="2">Supervised (فيه labels)</td><td>Classification (category)</td><td>image classification, fraud detection, diagnostics, customer retention</td></tr>
+        <tr><td>Regression (رقم continuous)</td><td>weather &amp; market forecasting, life expectancy, population growth, ad popularity</td></tr>
+        <tr><td rowspan="2">Unsupervised (من غير labels)</td><td>Clustering</td><td>recommender systems, customer segmentation, targeted marketing</td></tr>
+        <tr><td>Dimensionality Reduction</td><td>big data visualisation, compression, feature elicitation</td></tr>
+        <tr><td>Reinforcement (rewards)</td><td>—</td><td>robot navigation, game AI, real-time decisions, skill acquisition</td></tr>
+      </tbody>
+    </table></div>
+    <h4>Big Data: الـ 5 Vs</h4>
+    <ul>
+      <li><b>Volume</b> = الكمية · <b>Velocity</b> = السرعة · <b>Variety</b> = الأنواع (80% unstructured) · <b>Veracity</b> = الثقة والـ messiness · <b>Value</b> = لازم تتحول لقيمة.</li>
+      <li>واتضاف عليهم Visualization وVirality وViscosity، فبقوا 8 Vs.</li>
+    </ul>
+  </article>
+
+  <!-- ===== 4 ===== -->
+  <article class="gsec" id="g4">
+    <h3><span class="ln">Lecture 3</span> Problem Solving as Search</h3>
+    <ul>
+      <li><b>Reflex agent:</b> بيبص على الدنيا «IS»، وبيقرر من الـ percept الحالي ومش بيفكر في العواقب. <b>Planning agent:</b> بيبص على الدنيا «WOULD BE»، وبيفكر في العواقب، ومحتاج model وgoal.</li>
+      <li>البني آدم مش بيعمل exhaustive search، بيستخدم <b>heuristics</b> (judgmental rules من الخبرة). الـ heuristic بيوجّه البحث للطرق الأقرب للنجاح، بس <u>مش بيضمن الحل الأمثل</u>.</li>
+      <li><b>Search problem:</b> Initial state + Actions + Transition model + Goal state + Path cost (مجموع step costs موجبة). والـ optimal solution = أقل path cost.</li>
+      <li><b>State space:</b> كل الـ states اللي ممكن نوصلها، وبتتمثل كـ graph: الـ nodes = states، والـ arcs = actions. وبتتكتب <b>[N, A, S, GD]</b> = Nodes, Arcs, Start, Goal.</li>
+    </ul>
+    <div class="tw"><table>
+      <thead><tr><th>المثال</th><th>الرقم المهم</th></tr></thead>
+      <tbody>
+        <tr><td>8-puzzle</td><td>181,440 states (9!/2)، والـ 15-puzzle حوالي 10 trillion</td></tr>
+        <tr><td>Tic-Tac-Toe</td><td>9! paths، والـ graph هو DAG (من غير cycles)</td></tr>
+        <tr><td>TSP</td><td>(n − 1)! paths</td></tr>
+        <tr><td>Vacuum</td><td>n·2ⁿ states</td></tr>
+        <tr><td>Robot motion planning</td><td>states وactions continuous</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>Data-driven (forward chaining):</b> بنبدأ من الداتا. بنستخدمه لما الداتا موجودة، والـ goals كتير أو صعب نحددها، وطرق استخدام الـ facts قليلة.</li>
+      <li><b>Goal-driven (backward chaining):</b> بنبدأ من الـ goal. بنستخدمه لما الـ goal معروف، والـ rules كتير، والداتا مش موجودة. مثال: theorem prover.</li>
+      <li><b>Node ≠ State:</b> الـ state = شكل العالم، والـ node = data structure فيه state + pointer للـ parent + path cost.</li>
+      <li><b>Tree search:</b> بنحط الـ start في الـ frontier، وبعدها في كل خطوة نختار node، لو goal نرجّع الحل، ولو لأ نعمل expand ونضيف أولادها.</li>
+      <li><b>Repeated states:</b> بنحفظ explored set ومش بنرجّع حاجة اتشافت. وفي 8-queens مفيش تكرار، والـ assembly planning فيه تكرار قليل، والـ 8-puzzle وrobot navigation فيهم تكرار كتير.</li>
+    </ul>
+    <h4>Backtracking</h4>
+    <p>بيجرب كل الطرق بنظام: يمشي في path لحد ما يلاقي الـ goal، أو يوصل لـ dead end فيرجع لآخر node لسه ماتجربتش.</p>
+    <div class="tw"><table>
+      <tbody>
+        <tr><th>SL</th><td>State List: الـ path الحالي، ولو لقينا الـ goal يبقى هو الحل</td></tr>
+        <tr><th>NSL</th><td>New State List: nodes مستنية evaluation</td></tr>
+        <tr><th>DE</th><td>Dead Ends: states أولادها فشلوا</td></tr>
+        <tr><th>CS</th><td>Current State: اللي بنبص عليها دلوقتي</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <!-- ===== 5 ===== -->
+  <article class="gsec" id="g5">
+    <h3><span class="ln">Lecture 5</span> Blind (Uninformed) Search</h3>
+    <p><b>Blind</b> = Uninformed = Exhaustive = Brute-force: مش بيستخدم أي معلومة عن الـ state. <b>Heuristic</b> = Informed: بيستخدم المعلومات عشان يعرف أنهي node «more promising».</p>
+    <div class="tw"><table>
+      <thead><tr><th>الـ Algorithm</th><th>الـ Fringe</th><th>الفكرة</th></tr></thead>
+      <tbody>
+        <tr><td><b>DFS</b></td><td>Stack (LIFO)، الأولاد في الأول</td><td>space قليل، بس ممكن ينزل لتحت أوي ومش بيضمن أقصر حل</td></tr>
+        <tr><td><b>BFS</b></td><td>Queue (FIFO)، الأولاد في الآخر</td><td>بيضمن أقصر حل، بس الـ space كبير</td></tr>
+        <tr><td><b>Depth-Limited</b></td><td>Stack + cutoff k</td><td>النتايج: Solution / Failure / Cutoff</td></tr>
+        <tr><td><b>Iterative Deepening</b></td><td>DLS لـ k = 0, 1, 2…</td><td>أقصر حل زي BFS + space زي DFS، وأحسن performance</td></tr>
+        <tr><td><b>Bidirectional</b></td><td>2 × Queue</td><td>بحث forward + backward، كل واحد b^(d/2)، والمجموع أقل من b^d</td></tr>
+        <tr><td><b>UCS</b></td><td>Priority queue بالـ g(N)</td><td>أقل تكلفة، والـ goal test وقت الـ expansion</td></tr>
+      </tbody>
+    </table></div>
+    <p class="hint">حجم الشجرة = b^d (b = branching factor، d = depth). كل ما b زاد البحث بقى أبطأ بشكل exponential.</p>
+  </article>
+
+  <!-- ===== 6 ===== -->
+  <article class="gsec" id="g6">
+    <h3><span class="ln">Lecture 5</span> Heuristic (Informed) Search</h3>
+    <ul>
+      <li><b>g(N)</b> = التكلفة الفعلية من الـ start لـ N (والـ start نفسها g = 0). <b>h(N)</b> = تقدير التكلفة من N للـ goal. <b>f(N)</b> = evaluation function.</li>
+      <li><b>f = h</b> يبقى Greedy best-first، و<b>f = g + h</b> يبقى تكلفة الحل كله لو عدّينا من N (فكرة A*).</li>
+      <li><b>Best-First:</b> فيه open list (priority queue مترتبة بالـ heuristic) وclosed list، والأفضل بيتبحث الأول حتى لو من أي level.</li>
+      <li>8-puzzle heuristics: <b>misplaced tiles</b>، و<b>sum of distances (Manhattan)</b>، و2 × عدد الـ direct tile reversals.</li>
+      <li>Robot navigation: الـ h = straight-line distance √((Xg−XN)² + (Yg−YN)²).</li>
+      <li><b>Symmetry reduction:</b> أول حركة في Tic-Tac-Toe بتبقى 3 بس (corner / edge / center) بدل 9. <b>Heuristic reduction</b> (most winning lines): الـ center = 4، والـ corner = 3، والـ edge = 2.</li>
+      <li><b>Hill Climbing:</b> بيختار أحسن child بس، ومش بيحتفظ بالبدائل، فممكن يقف عند <b>local maximum</b>. ونفس الكلام في الـ Steepest descent: ممكن يقف عند local minimum.</li>
+      <li>كل ما الـ <b>heuristic function</b> كانت أدق، البحث بقى أسرع.</li>
+    </ul>
+  </article>
+
+  <!-- ===== 7 ===== -->
+  <article class="gsec" id="g7">
+    <h3><span class="ln">Lecture 6</span> Adversarial Search (Games)</h3>
+    <ul>
+      <li>لعبة فيها لاعبين بنفس المعرفة، والصعوبة الأساسية إننا نحسب حساب حركات الخصم.</li>
+      <li><b>Minimax:</b> بنعلّم كل level بـ MAX أو MIN. الـ MAX بياخد أكبر قيمة في أولاده، والـ MIN بياخد أصغر قيمة، ونطلع من تحت لفوق. في الـ Nim الأوراق قيمتها 0 أو 1 (win لـ MIN أو لـ MAX). ولو الشجرة كبيرة بنقف عند <b>fixed ply depth</b> وبنستخدم heuristic evaluation.</li>
+      <li><b>Alpha-Beta pruning:</b> بيقلّل عدد الـ nodes اللي بنقيّمها، وبيرجّع <u>نفس الحركة</u> اللي Minimax بيرجّعها. بيستكشف depth-first.</li>
+      <li><b>α</b> = أحسن اختيار لـ MAX، وعمرها ما بتقل. <b>β</b> = أحسن اختيار لـ MIN، وعمرها ما بتزيد. الـ prune بيحصل لما α ≥ β.</li>
+      <li>تقنيات تانية: Evolutionary (Genetic) Algorithms، وSwarm Intelligence، وSimulated Annealing.</li>
+      <li>نستخدم الـ search إمتى؟ لو الـ search space صغير، أو كبير بس عندنا heuristics كويسة.</li>
+    </ul>
+  </article>
+
+  <!-- ===== Key points ===== -->
+  <article class="gsec key" id="gk">
+    <h3>أهم النقط</h3>
+    <ol>
+      <li>الأربع approaches: Thinking/Acting × Humanly/Rationally، وكل واحدة ليها اسم وأصحاب تعريفات.</li>
+      <li>الـ Turing Test = Acting Humanly، والـ Total Turing Test بيضيف Computer Vision وRobotics.</li>
+      <li>الـ Chinese Room بيقول إن Strong AI غلط، لأن مفيش understanding.</li>
+      <li>Weak AI = simulate، وStrong AI = mind حقيقي. وANI ← AGI ← ASI.</li>
+      <li>Agent = Sensors + Actuators، والـ rational agent بيعمل maximize للـ performance measure.</li>
+      <li>PEAS: اعرف تفرّق بين P وE وA وS في أي مثال.</li>
+      <li>FP = إنذار كاذب (Type I)، وFN = حاجة فاتتنا (Type II).</li>
+      <li>Goal-based = عايز يوصل لهدف، وCost-based = الأخطاء ليها تكلفة.</li>
+      <li>جدول الـ environments: Semi-dynamic = Chess with clock، وStrategic = deterministic + خصم.</li>
+      <li>AI ⊃ ML ⊃ DL. والـ ML بيعمل prediction، والـ DM بيعمل discovery (KDD).</li>
+      <li>Classification = category، وRegression = رقم، وClustering = مجموعات من غير labels، وRL = rewards.</li>
+      <li>الـ 5 Vs: Volume, Velocity, Variety, Veracity, Value.</li>
+      <li>Reflex = IS، وPlanning = WOULD BE. والـ heuristic مش بيضمن الحل الأمثل.</li>
+      <li>DFS = Stack، وBFS = Queue، وUCS وBest-First = Priority Queue، وBidirectional = Queue.</li>
+      <li>BFS وIDS بيضمنوا أقصر حل، وIDS عنده space قليل زي DFS.</li>
+      <li>g = من الـ start لـ N، وh = من N للـ goal، وf = g + h.</li>
+      <li>Hill climbing ممكن يقف عند local maximum.</li>
+      <li>Minimax للألعاب الثنائية، وAlpha-Beta = نفس النتيجة بـ nodes أقل.</li>
+    </ol>
+  </article>
+
+  <!-- ===== Terms ===== -->
+  <article class="gsec" id="gt">
+    <h3>أهم المصطلحات</h3>
+    <div class="tw"><table class="terms">
+      <thead><tr><th>Term</th><th>المعنى ببساطة</th></tr></thead>
+      <tbody>
+        <tr><td>Intelligent Agent</td><td>حاجة بتحس بالبيئة وبتتصرف فيها عشان تحقق هدف</td></tr>
+        <tr><td>Rational Agent</td><td>بيعمل الـ right thing اللي يعمل maximize للـ performance</td></tr>
+        <tr><td>Percept / Percept sequence</td><td>اللي الـ agent حس بيه دلوقتي / كل اللي حس بيه لحد دلوقتي</td></tr>
+        <tr><td>Performance measure</td><td>معيار النجاح (utility function)</td></tr>
+        <tr><td>Bounded rationality</td><td>أحسن قرار في حدود الموارد والإحساس</td></tr>
+        <tr><td>Cognitive plausibility</td><td>إن النظام يفكر زي الإنسان (شرط اتشال)</td></tr>
+        <tr><td>Imitation Game</td><td>اسم الـ Turing Test</td></tr>
+        <tr><td>Intentionality</td><td>الفهم الحقيقي، وده اللي Searle بيقول إنه ناقص</td></tr>
+        <tr><td>Affective Computing</td><td>أنظمة بتفهم وتحاكي المشاعر</td></tr>
+        <tr><td>Semantic Network</td><td>graph للمعرفة: concepts وrelations</td></tr>
+        <tr><td>PEAS</td><td>Performance, Environment, Actuators, Sensors</td></tr>
+        <tr><td>Transition model</td><td>لو عملت action في state، هتروح لأنهي state</td></tr>
+        <tr><td>Strategic</td><td>deterministic ما عدا حركات الـ agents التانيين</td></tr>
+        <tr><td>Semi-dynamic</td><td>البيئة ثابتة بس الـ score بيتأثر بالوقت</td></tr>
+        <tr><td>KDD</td><td>Knowledge Discovery in Databases، والـ DM جزء منه</td></tr>
+        <tr><td>Veracity</td><td>مدى الثقة في الداتا</td></tr>
+        <tr><td>State space</td><td>كل الـ states اللي ممكن نوصلها من البداية</td></tr>
+        <tr><td>Frontier / Fringe / Open list</td><td>الـ nodes اللي اتولدت ولسه ماتعملهاش expand</td></tr>
+        <tr><td>Closed list / Explored set</td><td>الـ nodes اللي اتزارت</td></tr>
+        <tr><td>Expand</td><td>نطلّع كل أولاد الـ node</td></tr>
+        <tr><td>Branching factor (b)</td><td>عدد الأولاد لكل node</td></tr>
+        <tr><td>Exhaustive search</td><td>نجرب كل حاجة (blind)</td></tr>
+        <tr><td>Heuristic</td><td>قاعدة خبرة بتوجّه البحث، ومش مضمونة</td></tr>
+        <tr><td>Evaluation function f(N)</td><td>رقم بنرتّب بيه الـ nodes</td></tr>
+        <tr><td>Forward / Backward chaining</td><td>Data-driven / Goal-driven</td></tr>
+        <tr><td>Dead end</td><td>node أولادها فشلوا</td></tr>
+        <tr><td>Cutoff</td><td>وقفنا عند الـ depth limit من غير ما نلاقي حل</td></tr>
+        <tr><td>Local maximum</td><td>أحسن من كل الجيران بس مش أحسن حل</td></tr>
+        <tr><td>Ply</td><td>دور واحد للاعب واحد (level في الشجرة)</td></tr>
+        <tr><td>Pruning</td><td>قطع فروع مش هتأثر على القرار</td></tr>
+        <tr><td>Adversarial</td><td>فيه خصم</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <!-- ===== Hints ===== -->
+  <article class="gsec hints" id="gh">
+    <h3>هنتات الامتحان</h3>
+    <ul>
+      <li><b>«simulate / mimic human»</b> يبقى Acting Humanly. <b>«optimal / best move / agent»</b> يبقى Acting Rationally. <b>«reasoning / logic»</b> يبقى Thinking Rationally.</li>
+      <li>سؤال Total Turing Test غالبًا إجابته <b>All of the above</b>.</li>
+      <li>في سؤال «can NOT be described as»، دوّر على الصفة الوحيدة اللي بتعارض الجدول. للـ Driving والـ Chess with clock الإجابة كانت <b>Static</b>.</li>
+      <li>أي لغز لاعب واحد (N-Queens، Sudoku) مش adversarial ومش Strategic، والإجابة غالبًا <b>Static</b> أو <b>Discrete</b>.</li>
+      <li>جمل الـ True/False بتتعكس بين النماذج (ML ↔ DM، Classification ↔ Regression، arc ↔ vertex)، فاقرا الجملة كلها كويس.</li>
+      <li>«y real-valued» يبقى Regression، و«y categorical» يبقى Classification.</li>
+      <li>«flagging legit / unauthorized access» يبقى قلّل <b>FP</b>. «missing illness» يبقى قلّل <b>FN</b>.</li>
+      <li>«placing a stone / queen / brushes» يبقى <b>Actuators</b>. والـ «Quality, price…» يبقى <b>P</b>.</li>
+      <li>g(N) للـ puzzle اللي اليوزر إداه = <b>0</b>. وفي N-Queens الـ g غالبًا = عدد الوزرا اللي اتحطوا.</li>
+      <li>Board = <b>node</b>، وmove = <b>arc</b>. وN-Queens مفيش فيها repeated nodes.</li>
+      <li>TSP = <b>(n − 1)!</b>، وTic-Tac-Toe = <b>9!</b>، و8-puzzle = <b>181,440</b>.</li>
+      <li>سؤال Fringe: Best-First + UCS = Priority queue للاتنين، وBFS + Bidirectional = Queue للاتنين.</li>
+      <li>Backtracking ≈ DFS في الترتيب، فـ ([A], [B A], [D B A]) تبقى SL + DFS closed (<b>a &amp; b</b>).</li>
+      <li>Sudoku «stuck in local optimum» يبقى <b>Hill Climbing</b>.</li>
+      <li>Alpha-Beta: امشي left to right (أو right to left لو السؤال قال كده). أول ما الـ MIN يبقى ≤ α اقطع الباقي، وأول ما الـ MAX يبقى ≥ β اقطع الباقي.</li>
+      <li>Brute-force في الشطرنج: الوقت بيعتمد على <b>عدد الحركات في كل دور</b> (branching factor). والأنسب للشطرنج <b>Alpha-Beta</b>. والـ Bidirectional في الشطرنج <b>False</b>.</li>
+    </ul>
+  </article>
+</section>
+
+
+  <footer>كل إجابة اتراجعت على السلايدز (Lectures 0, 1, 2, 3, 5, 6). Genetic Algorithms (Lecture 7) مش داخلة لأن سلايد 320 هو أول سلايد فيها. إجاباتك وعلاماتك بتتحفظ على المتصفح ده بس.</footer>
+</div>
+<script>
+const TF=["True","False"];
+const Q=[];
+function add(o){Q.push(o)}
+
+/* ===== T1: What is AI & the four approaches ===== */
+add({tp:"Intro to AI",s:"Slides 32, 83",
+q:"According to Russell & Norvig, the four main approaches to AI are built from which two dimensions?",
+o:["Thinking vs. Acting, and Humanly vs. Rationally","Weak vs. Strong, and Narrow vs. General","Supervised vs. Unsupervised, and Online vs. Offline","Symbolic vs. Connectionist, and Fast vs. Slow"],a:0,
+e:"الأربع approaches بتوع الـ AI عبارة عن جدول 2×2: بُعد أول هو هل إحنا مهتمين بالـ Thinking (طريقة التفكير) ولا بالـ Acting (السلوك). وبُعد تاني هو هل المقياس هو الـ Human (نقلّد البني آدم) ولا الـ Rational (نعمل الصح المثالي). فبيطلع: Thinking Humanly – Thinking Rationally – Acting Humanly – Acting Rationally.",
+w:["صح: دول بالظبط البُعدين اللي بيكوّنوا الأربع approaches.","غلط: Weak/Strong AI وNarrow/General دي تصنيفات لمستوى الذكاء نفسه، مش الأربع approaches.","غلط: Supervised/Unsupervised دي أنواع Machine Learning.","غلط: الكلام ده مش مذكور في السلايدز كأبعاد الـ approaches."],
+tip:"جدول 2×2: (Thinking / Acting) × (Humanly / Rationally)."});
+
+add({tp:"Intro to AI",s:"Slide 33",
+q:"“The automation of activities that we associate with human thinking, such as decision making, problem solving, learning” (Bellman, 1978). This definition belongs to which AI approach?",
+o:["Acting Humanly","Thinking Humanly","Thinking Rationally","Acting Rationally"],a:1,
+e:"Bellman بيتكلم عن automation لأنشطة «بنربطها بتفكير الإنسان» (human thinking) زي الـ decision making والـ learning، فده تحت خانة Systems that think like humans = Thinking Humanly. ومعاه في نفس الخانة Haugeland: «machines with minds».",
+w:["غلط: Acting Humanly تعريفاتها Rich & Knight وKurzweil (computers do things people are better at).","صح: الكلمة المفتاحية «human thinking».","غلط: Thinking Rationally تعريفاتها Charniak & McDermott وWinston (computational models / computations).","غلط: Acting Rationally تعريفاتها Nilsson وPoole (intelligent behavior / intelligent agents)."],
+tip:"Bellman + Haugeland = Thinking Humanly."});
+
+add({tp:"Intro to AI",s:"Slide 33",
+q:"“Computational Intelligence is the study of the design of intelligent agents” (Poole et al., 1998). This definition belongs to:",
+o:["Thinking Humanly","Acting Humanly","Thinking Rationally","Acting Rationally"],a:3,
+e:"أي تعريف فيه «intelligent agents» أو «intelligent behavior in artifacts» بيبقى Acting Rationally. ده الـ Rational Agent approach: الـ agent بيعمل الـ right thing اللي يحقق أهدافه بأفضل شكل.",
+w:["غلط: Thinking Humanly تعريفاتها Bellman وHaugeland.","غلط: Acting Humanly تعريفاتها Rich & Knight وKurzweil.","غلط: Thinking Rationally تعريفاتها Charniak & McDermott وWinston.","صح: Poole وNilsson هما Acting Rationally."],
+tip:"كلمة agents = Acting Rationally."});
+
+add({tp:"Intro to AI",s:"Slide 33",
+q:"“The study of the computations that make it possible to perceive, reason, and act” (Winston, 1992). This definition belongs to:",
+o:["Thinking Rationally","Acting Rationally","Thinking Humanly","Acting Humanly"],a:0,
+e:"Winston بيركّز على الـ computations اللي بتخلّي التفكير والاستنتاج ممكن، مش على تقليد البني آدم. فده Systems that think rationally، زي Charniak & McDermott: «the study of mental faculties through the use of computational models».",
+w:["صح: computations / computational models = Thinking Rationally.","غلط: رغم إن فيها كلمة act، المقصود الحسابات اللي ورا التفكير، مش تصميم agent.","غلط: مفيش أي ذكر لتقليد تفكير الإنسان.","غلط: مش بيقيس على أداء البني آدم."],
+tip:"Winston + Charniak & McDermott = Thinking Rationally."});
+
+add({tp:"Intro to AI",s:"Slide 83",
+q:"The “Rational Agent approach” corresponds to ______, while the “Cognitive Modelling approach” corresponds to ______.",
+o:["Acting Rationally / Thinking Humanly","Thinking Rationally / Acting Humanly","Acting Humanly / Thinking Rationally","Thinking Humanly / Acting Rationally"],a:0,
+e:"في سلايد الـ Recap كل approach ليه اسم: Acting Humanly = the Turing Test approach، Thinking Humanly = the Cognitive Modelling approach، Thinking Rationally = the Laws-of-Thought approach، Acting Rationally = the Rational Agent approach.",
+w:["صح: Rational Agent = Acting Rationally، وCognitive Modelling = Thinking Humanly.","غلط: Thinking Rationally اسمها Laws of Thought، وActing Humanly اسمها Turing Test.","غلط: معكوسة ومش متطابقة.","غلط: معكوسة."],
+tip:"Turing Test ↔ Acting Humanly | Cognitive Modelling ↔ Thinking Humanly | Laws of Thought ↔ Thinking Rationally | Rational Agent ↔ Acting Rationally."});
+
+add({tp:"Intro to AI",s:"Slide 30",
+q:"Who coined the term “Artificial Intelligence” and invented the programming language LISP?",
+o:["Alan Turing","John McCarthy","John Searle","Alfred Binet","Elaine Rich"],a:1,
+e:"John McCarthy (Stanford) من مؤسسين مجال الـ AI، وهو اللي اخترع مصطلح «Artificial Intelligence» ولغة LISP. وعرّف الـ AI إنه «the science and engineering of making intelligent machines».",
+w:["غلط: Turing صاحب الـ Turing Test (Imitation Game) سنة 1950.","صح.","غلط: Searle صاحب الـ Chinese Room Argument.","غلط: Binet عالم نفس فرنساوي عمل أول اختبار ذكاء عملي (IQ).","غلط: Elaine Rich كتبت تعريف «things at which, at the moment, people are better»."],
+tip:"McCarthy = اسم AI + LISP."});
+
+add({tp:"Intro to AI",s:"Slide 29",x:"Similar to a past exam (Q15)",
+q:"In the course slides, Webster’s dictionary describes intelligence as:",
+o:["very fast information processing.","the firing of neurons.","remembering correct answers.","storing information.","the capacity to learn and solve problems."],a:4,
+e:"السلايد بتقول تعريف Webster: «the capacity to learn and solve problems»، وبالتحديد: the ability to solve novel problems، to act rationally، to act like humans. ملحوظة: في امتحان قديم الإجابة كانت «making wise choices about what to do next»، ودي نفس فكرة الـ judgment (Binet) والـ act rationally. لو لقيتها في الامتحان اختارها، لكن الصيغة اللي في سلايدز السنة دي هي capacity to learn and solve problems.",
+w:["غلط: السرعة لوحدها مش ذكاء.","غلط: ده وصف بيولوجي للمخ، مش تعريف الذكاء.","غلط: الحفظ مش ذكاء، والمحاضرة نفسها بتقول «Do NOT memorize».","غلط: التخزين جزء من تعريف Humphreys بس مش هو التعريف كله.","صح: نص تعريف Webster في السلايد."],
+tip:"Intelligence = capacity to learn & solve (novel) problems."});
+
+add({tp:"Intro to AI",s:"Slide 27",
+q:"“How should we make decisions so as to maximise payoff? How should we do this when others may not go along?” These questions are the contribution of which foundation of AI?",
+o:["Philosophy","Mathematics","Economics","Neuroscience","Control theory & cybernetics"],a:2,
+e:"Foundations of AI: الـ Economics بيسأل إزاي ناخد قرار يعمل maximise للـ payoff، حتى لو غيرنا مش موافق أو الـ payoff بعيد في المستقبل. الـ Philosophy: formal rules والـ mind من المخ. الـ Mathematics: إيه اللي ممكن يتحسب والـ reasoning with uncertainty. الـ Neuroscience: المخ بيعالج المعلومات إزاي. الـ Control theory: إزاي الآلة تشتغل under their own control.",
+w:["غلط: Philosophy بتسأل عن الـ formal rules وأصل المعرفة.","غلط: Mathematics: what can be computed / reasoning with uncertain information.","صح: payoff = Economics.","غلط: Neuroscience: How do brains process information?","غلط: Control theory: How can artefacts operate under their own control?"],
+tip:"payoff → Economics."});
+
+add({tp:"Intro to AI",s:"Slide 62",
+q:"“Socrates is a man; all men are mortal; therefore, Socrates is mortal.” This irrefutable reasoning pattern is the basis of which AI approach?",
+o:["Acting Humanly (Turing Test approach)","Thinking Humanly (Cognitive Modelling)","Thinking Rationally (Laws of Thought / Logic)","Acting Rationally (Rational Agent)"],a:2,
+e:"الـ Logic بيعمل formalise للتفكير الصحيح: patterns of argument بتدي دايمًا نتيجة صح لو الـ premises صح. ده الـ Logistic tradition في Thinking Rationally، وأمثلته Propositional Logic وLogic Programming (Prolog) وSemantic Networks.",
+w:["غلط: Turing Test بيقيس السلوك، مش صحة الاستنتاج.","غلط: Cognitive Modelling بيدرس المخ والـ cognitive science.","صح: Logic = Laws of Thought = Thinking Rationally.","غلط: Acting Rationally أوسع من الـ logic، لأنه بيتعامل كمان مع الـ uncertainty والـ reactive behaviour."],
+tip:"Logic / Syllogism = Thinking Rationally."});
+
+add({tp:"Intro to AI",s:"Slides 64–65",
+f:"father(john, mary).\nmother(sarah, mary).\nparent(X, Y) :- father(X, Y).\nparent(X, Y) :- mother(X, Y).\n\n?- parent(X, mary).",
+q:"Given the Prolog program above, what does the query return?",
+o:["X = john only","X = sarah only","X = john ; X = sarah","false","X = mary"],a:2,
+e:"الـ rule بتقول X يبقى parent لـ Y لو X هو father أو mother لـ Y. Prolog بيدوّر على كل الحلول: من الـ fact الأول john، ومن التاني sarah. فالنتيجة X = john ; X = sarah (والـ ; معناها «وفي حل تاني»). ده مثال على Logic Programming تحت Thinking Rationally.",
+w:["غلط: ناقص sarah لأن فيه rule تانية للـ mother.","غلط: ناقص john.","صح: الاتنين parents لـ mary.","غلط: فيه حلول فعلًا.","غلط: mary هي الـ child مش الـ parent."],
+tip:"Prolog = facts + rules + queries، وبيرجّع كل الحلول."});
+
+/* ===== T2: Turing Test, Chinese Room, Strong vs Weak ===== */
+add({tp:"Turing & Chinese Room",s:"Slides 41–43",x:"Past exam: Summer 2024",
+q:"The Turing Test measures intelligence as:",
+o:["a machine’s ability to detect a human’s presence.","a human’s ability to detect a machine’s presence.","a human’s inability to detect a machine’s presence.","use of a Turing machine.","an IQ test for machines."],a:2,
+e:"في الـ Imitation Game فيه interrogator (بني آدم) بيكتب أسئلة ويستقبل ردود مكتوبة، ومش عارف هي من human ولا machine. الـ machine بتنجح لو البني آدم «مقدرش» يميّز إنها machine. يعني الذكاء = عجز البني آدم عن اكتشاف الآلة.",
+w:["غلط: الآلة مش هي اللي بتكتشف.","غلط: العكس. لو البني آدم قدر يكتشفها تبقى فشلت.","صح: inability to detect.","غلط: الـ Turing machine نموذج حسابي، مالوش علاقة بالاختبار.","غلط: مش IQ test."],
+tip:"تنجح الآلة لما البني آدم مايعرفش يفرّقها."});
+
+add({tp:"Turing & Chinese Room",s:"Slides 41–43",
+q:"In Turing’s 1950 paper “Computing Machinery and Intelligence”, the question “Can machines think?” is treated as identical (≡) to:",
+o:["Can machines feel emotions?","Can machines behave intelligently?","Can machines compute any function?","Can machines have a mind?","Can machines beat humans at chess?"],a:1,
+e:"Turing قال إن «Can machines think?» ≡ «Can machines behave intelligently?»، وحطّ operational test للسلوك الذكي هو الـ Imitation Game. عشان كده الـ Turing Test تحت Acting Humanly: بيقيس السلوك، مش التفكير الداخلي.",
+w:["غلط: المشاعر دي Affective Computing.","صح.","غلط: ده سؤال الـ computability في الرياضيات.","غلط: موضوع الـ mind ده اعتراض Searle في الـ Chinese Room.","غلط: مثال ضيق ومش مذكور."],
+tip:"Think ≡ Behave intelligently → Acting Humanly."});
+
+add({tp:"Turing & Chinese Room",s:"Slides 44–45",x:"Past exam: Fall 2021 & Fall 2022",
+q:"Which of these fields is crucial to pass a Total Turing Test (the Turing Test extended to include physical aspects of human behavior)?",
+o:["Natural Language Processing.","Knowledge Representation.","Computer Vision.","Robotics.","All of the above."],a:4,
+e:"الـ Turing Test العادي محتاج NLP (يتكلم)، وKnowledge Representation (يخزّن اللي يعرفه)، وAutomated Reasoning، وMachine Learning. الـ Total Turing Test بيضيف الجانب الفيزيائي: Computer Vision (يشوف الأشياء) وRobotics (يحرّك ويمسك الأشياء). فعشان ينجح محتاج كل اللي فوق.",
+w:["جزء من الحل بس، مش كفاية لوحده.","جزء من الحل بس.","جزء من الحل (اتضاف في الـ Total).","جزء من الحل (اتضاف في الـ Total).","صح: كلهم لازمين."],
+tip:"Total TT = كل مهارات الـ TT + Vision + Robotics."});
+
+add({tp:"Turing & Chinese Room",s:"Slide 45",
+q:"Compared to the standard Turing Test, the Total Turing Test additionally requires which two capabilities?",
+o:["Natural Language Processing & Knowledge Representation","Automated Reasoning & Machine Learning","Computer Vision & Robotics","Data Mining & Big Data"],a:2,
+e:"السلايد 45 بتقول: «extended to include physical aspects of human behavior» وعليها علامة ✓ على Computer Vision وRobotics. الحاجات التانية (NLP, KR, Reasoning, ML) موجودة أصلًا في الـ Turing Test العادي.",
+w:["غلط: دول موجودين في الـ TT العادي.","غلط: موجودين في الـ TT العادي.","صح: دول الإضافة الفيزيائية.","غلط: مش ليهم علاقة بالـ Turing Test."],
+tip:"Total = + Eyes (Vision) + Hands (Robotics)."});
+
+add({tp:"Turing & Chinese Room",s:"Slides 33, 83",x:"Past exam: Model B Fall 2021",k:"tf",
+q:"The Imitation Game (Turing Test) considers Artificial Intelligence as “Systems that think like humans”.",
+o:TF,a:1,
+e:"غلط. الـ Turing Test بيقيس السلوك الخارجي (behaviour)، يعني «Systems that act like humans»، واسمه في السلايدز «the Turing Test approach» تحت Acting Humanly. أما Thinking Humanly فهو الـ Cognitive Modelling.",
+w:["غلط: مش بيبص على طريقة التفكير جوه.","صح إنها False: الصح Acting Humanly."],
+tip:"Turing Test = ACT like humans."});
+
+add({tp:"Turing & Chinese Room",s:"Slides 49–50",x:"Past exam: Model Y Fall 2022",k:"tf",
+q:"John Searle (in the Chinese Room Argument) argues that without “understanding” we cannot describe what the machine is doing as “thinking”, and since it does not think, it does not have a “mind”. Thus, he concluded that “Strong AI” is false.",
+o:TF,a:0,
+e:"صح. Searle تخيّل نفسه في أوضة مقفولة ومعاه كتاب instructions، بيستقبل رموز صيني ويطلّع رموز صيني صح من غير ما يفهم ولا كلمة. الآلة بتعمل نفس الشيء: بتنفّذ program خطوة بخطوة. فمن غير «understanding / intentionality» مفيش thinking ولا mind، وبالتالي Strong AI غلط.",
+w:["صح: ده نص استنتاج Searle.","غلط: الجملة هي فعلًا كلام Searle."],
+tip:"Chinese Room → no understanding → Strong AI is false."});
+
+add({tp:"Turing & Chinese Room",s:"Slides 52–53",
+q:"The “Weak AI Hypothesis” states that:",
+o:["We can create algorithms that are truly intelligent, with consciousness and self-awareness.","We can accurately simulate animal / human intelligence in a computer.","Machines can never simulate any form of intelligence.","Machines are already smarter than humans in every task."],a:1,
+e:"Weak AI = نقدر «نحاكي» (simulate) ذكاء الإنسان أو الحيوان في كمبيوتر بدقة. Strong AI = نقدر نعمل algorithms ذكية «بجد» فيها Consciousness وSelf-awareness وFree-will، زي Sonny في I, Robot.",
+w:["غلط: ده الـ Strong AI Hypothesis.","صح: simulate = Weak.","غلط: ولا Weak ولا Strong بيقولوا كده.","غلط: ده أقرب لـ ASI ومش تعريف Weak AI."],
+tip:"Weak = Simulate | Strong = Real mind."});
+
+add({tp:"Turing & Chinese Room",s:"Slides 54–55",
+q:"“A machine’s ability to perform a single task extremely well, even better than humans” describes:",
+o:["Artificial Narrow Intelligence (ANI)","Artificial General Intelligence (AGI)","Artificial Super Intelligence (ASI)","The Strong AI Hypothesis"],a:0,
+e:"الـ ANI: task واحدة بأداء عالي جدًا، زي AI بيلعب شطرنج أو بيتعرّف على الوشوش. الـ AGI: الآلة تفكر وتشتغل زي العقل البشري في أي حاجة. الـ ASI: تتخطى ذكاء البشر. إحنا دلوقتي في مرحلة الـ ANI.",
+w:["صح: single task = Narrow.","غلط: AGI = think and function as human mind.","غلط: ASI = أذكى من البشر عمومًا.","غلط: Strong AI عن الـ consciousness."],
+tip:"Narrow = one task | General = human mind | Super = beyond humans."});
+
+add({tp:"Turing & Chinese Room",s:"Slides 33, 43",x:"Past exam: Summer 2024",
+q:"An AI system that understands and responds to natural-language queries in a way that simulates human conversation is an example of ______. In contrast, an AI that plays chess optimally by calculating the best possible moves is an example of ______.",
+o:["Acting Humanly / Acting Rationally","Acting Rationally / Acting Humanly","Thinking Humanly / Thinking Rationally","Both are examples of Acting Humanly","Both are examples of Acting Rationally"],a:0,
+e:"المحادثة اللي «بتقلّد» البني آدم ده سلوك بنقيسه على البشر = Acting Humanly (روح الـ Turing Test). أما الشطرنج «optimally» وأفضل move فده عمل الـ right thing اللي يعمل maximise للهدف = Acting Rationally.",
+w:["صح.","غلط: معكوسة.","غلط: الاتنين بيوصفوا سلوك (act)، مش تفكير داخلي.","غلط: الشطرنج المثالي مش تقليد للإنسان.","غلط: المحادثة البشرية مقياسها الإنسان."],
+tip:"Simulate human → Humanly | Optimal → Rationally."});
+
+add({tp:"Turing & Chinese Room",s:"Slides 33, 62",x:"Past exam: SE Fall 2023",
+q:"In healthcare, an AI system that assists doctors by reasoning through a patient’s symptoms and medical history is an example of ______, while customer-service chatbots that mimic human interactions represent the ______ AI approach.",
+o:["Thinking Rationally / Acting Humanly","Thinking Rationally / Thinking Humanly","Acting Humanly / Thinking Rationally","Acting Rationally / Acting Humanly","Acting Rationally / Thinking Humanly"],a:0,
+e:"«reasoning through symptoms» = استنتاج منطقي من premises (الأعراض) لنتيجة (التشخيص)، ودي فكرة الـ Logic = Thinking Rationally. والـ chatbot اللي «mimicking human interactions» = Acting Humanly.",
+w:["صح.","غلط: الـ chatbot بيقلّد السلوك مش طريقة التفكير.","غلط: معكوسة.","غلط: الكلمة المفتاحية reasoning = Thinking.","غلط: معكوسة وغلط."],
+tip:"Reasoning → Thinking Rationally | Mimicking → Acting Humanly."});
+
+/* ===== T3: Agents, PEAS, errors, goal vs cost ===== */
+add({tp:"Agents & PEAS",s:"Slide 91",
+q:"An agent is anything that can be viewed as perceiving its environment through ______ and acting upon that environment through ______.",
+o:["sensors / actuators","actuators / sensors","percepts / states","goals / costs"],a:0,
+e:"التعريف الرسمي: الـ agent بيـ perceive الـ environment عن طريق الـ Sensors (كاميرا، ميكروفون…) وبيعمل actions على الـ environment عن طريق الـ Actuators (عجل، دراع، شاشة…). مثال Pac-Man في السلايدز.",
+w:["صح.","غلط: معكوسة.","غلط: الـ percepts هي اللي جاية من الـ sensors، مش أداة الإحساس نفسها.","غلط: دي أنواع agents مش مكوّناته."],
+tip:"Sensors = داخل | Actuators = خارج."});
+add({tp:"Agents & PEAS",s:"Slide 94",
+f:"function Vacuum_Agent([location, status]) returns an action\n  if status = Dirty then return Suck\n  else if location = A then return Right\n  else if location = B then return Left",
+q:"For the vacuum agent above, what action is returned for the percept [B, Clean]?",
+o:["Left","Right","Suck","NoOp"],a:0,
+e:"نمشي على الكود بالترتيب: status = Clean فمش Dirty، يبقى مش Suck. الـ location مش A، يبقى مش Right. الـ location = B، يبقى return Left. ده Reflex agent بسيط: بيقرر من الـ percept الحالي بس.",
+w:["صح.","غلط: Right لما يكون في A ونضيف.","غلط: Suck لو Dirty بس.","غلط: NoOp موجودة في الـ actions بس الكود ده عمره ما بيرجّعها."],
+tip:"Dirty → Suck، غير كده روح للمكان التاني."});
+
+add({tp:"Agents & PEAS",s:"Slide 161",
+q:"In the Vacuum World, a state = agent location + dirt status of every location. If there are n possible locations, how many possible states are there?",
+o:["n²","2n","n · 2ⁿ","2ⁿ","n!"],a:2,
+e:"الـ agent ممكن يكون في أي location من n، وكل location من الـ n ممكن تكون Dirty أو Clean، يعني 2ⁿ احتمال للتراب. الإجمالي n × 2ⁿ. لما n = 2 يبقى 2 × 4 = 8 states (زي الـ state space graph في السلايدز). وعشان كده السلايد بتقول: الـ state space بيكبر exponentially مع حجم العالم.",
+w:["غلط: مش بيحسب احتمالات التراب.","غلط: ناقص التوافيق.","صح: n·2ⁿ، وعند n = 2 تبقى 8.","غلط: ناسي مكان الـ agent.","غلط: مفيش ترتيب هنا."],
+tip:"Vacuum: 2 locations → 8 states | n → n·2ⁿ."});
+
+add({tp:"Agents & PEAS",s:"Slide 95",
+q:"For each possible percept sequence, a rational agent selects the action expected to maximise its performance measure. The performance measure (utility function) is:",
+o:["the number of sensors the agent has.","an objective criterion for success of an agent’s behaviour.","the speed of the agent’s processor.","the list of percepts received so far.","the transition model of the environment."],a:1,
+e:"الـ Rational Agent بيختار الـ action اللي متوقع يعمل maximise للـ performance measure، بناءً على الـ percept sequence والـ built-in knowledge. والـ Performance measure (اسمه كمان utility function) = معيار موضوعي (objective criterion) لنجاح سلوك الـ agent.",
+w:["غلط: الـ sensors هي الـ S في PEAS.","صح.","غلط: السرعة مالهاش دعوة بالتعريف.","غلط: دي الـ percept sequence نفسها.","غلط: الـ transition model مرتبط بالـ Actions."],
+tip:"Performance measure = Utility function = objective criterion for success."});
+
+add({tp:"Agents & PEAS",s:"Slides 96–97",x:"Past exam: Fall 2023",
+q:"In a robot designed to clean your house, which component of PEAS represents the robot’s cleaning brushes?",
+o:["Performance Measure","Environment","Sensors","Actuators"],a:3,
+e:"الفرش أداة الروبوت «بيعمل» بيها action على البيئة (بينضّف)، يبقى Actuator. لو السؤال عن الأوض والعفش والعوائق يبقى Environment. الكاميرا وحساس التراب Sensors. ودرجة النضافة وتوفير الوقت Performance Measure.",
+w:["غلط: الـ P معيار النجاح (نضافة/وقت/طاقة).","غلط: الـ E هي الأوض والعفش.","غلط: الـ Sensors بتحس، الفرش مش بتحس.","صح: الأداة اللي بتنفّذ الـ action."],
+tip:"أي حاجة «بتعمل» = Actuator، وأي حاجة «بتحس» = Sensor."});
+
+add({tp:"Agents & PEAS",s:"Slide 96",x:"Past exam: Fall 2022 (Models X & Y)",
+q:"For an Internet shopping agent, which of the following represents the P in PEAS?",
+o:["Current and future Web sites, vendors, shippers, etc.","Display to user, follow URL, fill in form, etc.","Web pages (text, graphics, scripts, etc.)","Quality, appropriateness, price, efficiency, etc."],a:3,
+e:"P = Performance measure، يعني نقيس نجاح الـ agent بإيه: جودة المنتج، مناسبته، السعر، الكفاءة. وباقي الاختيارات هي باقي حروف PEAS لنفس الـ agent.",
+w:["غلط: ده الـ Environment.","غلط: ده الـ Actuators (actions).","غلط: ده الـ Sensors (اللي بيقراه).","صح."],
+tip:"P = بنقيس بإيه؟ (quality, price…)"});
+
+add({tp:"Agents & PEAS",s:"Slide 97",
+q:"In the PEAS description of an Autonomous Taxi, “Cameras, LIDAR, speedometer, GPS, odometer, engine sensors, keyboard” are the:",
+o:["Performance measure","Environment","Actuators","Sensors"],a:3,
+e:"Autonomous Taxi في السلايدز: P = Safe, fast, legal, comfortable trip, maximize profits. E = Roads, other traffic, pedestrians, customers. A = Steering wheel, accelerator, brake, signal, horn. S = Cameras, LIDAR, speedometer, GPS, odometer, engine sensors, keyboard. والـ keyboard هنا Sensor لأنه وسيلة الـ agent يستقبل بيها input من الزبون.",
+w:["غلط: P = safe, fast, legal…","غلط: E = roads, traffic…","غلط: A = steering, brake…","صح."],
+tip:"Taxi: keyboard = Sensor (input)."});
+
+add({tp:"Agents & PEAS",s:"Slide 99",
+q:"A doctor tells a male patient “You’re pregnant”. According to the slides, this is a:",
+o:["Type I error (False Positive)","Type II error (False Negative)","True Positive","True Negative"],a:0,
+e:"الـ False Positive (Type I error): النظام قال «Positive / أيوه» والحقيقة «لأ». الراجل مستحيل يكون حامل، فده FP. الـ False Negative (Type II error): النظام قال «لأ» والحقيقة «أيوه»، زي الدكتورة اللي قالت لست حامل فعلًا «You’re not pregnant».",
+w:["صح.","غلط: الـ FN لما نقول لست حامل إنها مش حامل.","غلط: الـ TP يبقى تشخيص صح لحالة موجودة.","غلط: الـ TN يبقى نقول لراجل «مش حامل»."],
+tip:"FP = إنذار كاذب (Type I) | FN = حالة فاتتنا (Type II)."});
+
+add({tp:"Agents & PEAS",s:"Slides 98–99",x:"Past exam: Summer 2024",
+q:"In a fraud-detection system for credit-card transactions, which metric should be minimised to avoid mistakenly flagging legitimate transactions as fraudulent?",
+o:["True Positives","True Negatives","False Positives","False Negatives","All of the above"],a:2,
+e:"الـ Positive هنا = «fraud». لو عاملة سليمة (Negative في الحقيقة) واتعلّمت fraud يبقى False Positive. السؤال بيقول «mistakenly flagging legitimate» يبقى FP. (لو كان السؤال عن عملية نصب عدّت من غير ما نكتشفها يبقى FN.)",
+w:["غلط: TP شيء كويس (مسكنا النصب).","غلط: TN شيء كويس.","صح.","غلط: FN = نصب فاتنا، مش عملية سليمة اتعلّمت.","غلط."],
+tip:"Flag legit = FP | Miss fraud = FN."});
+
+add({tp:"Agents & PEAS",s:"Slides 98–99",x:"Past exam: SE Fall 2023",
+q:"In a medical-diagnosis AI system, which metric should be minimised to ensure that serious illnesses are not missed and patients receive timely treatment?",
+o:["True Positives","True Negatives","False Negatives","False Positives","All of the above"],a:2,
+e:"«المرض اتفوّت» يعني المريض عنده المرض (Positive في الحقيقة) والنظام قال سليم (Negative)، ده False Negative = Type II error. في التشخيص الطبي الـ FN أخطر لأن المريض مش هيتعالج. (قارنه بالـ facial recognition للأمن: هناك نقلّل الـ FP عشان مانسمحش لحد غريب يدخل.)",
+w:["غلط: TP حاجة كويسة.","غلط: TN حاجة كويسة.","صح.","غلط: الـ FP إنذار كاذب، مزعج بس مش بيفوّت المرض.","غلط."],
+tip:"Missed illness = FN."});
+
+add({tp:"Agents & PEAS",s:"Slides 100–101",
+q:"Which agent types are the following? (i) A mobile robot that must move from room 112 to room 179 in a building. (ii) A spam filter that treats deleting an important wanted e-mail as much worse than letting one spam message through.",
+o:["Goal-based / Cost-based","Cost-based / Goal-based","Both are Goal-based","Both are Cost-based"],a:0,
+e:"الـ Goal-based agent: الـ actions بتعتمد على الـ goal، وروبوت رايح أوضة 179 هياخد actions غير روبوت رايح 105. الـ Cost-based agent: هدفه يقلّل «تكلفة القرارات الغلط» على المدى الطويل، ولما يبقى فيه نوعين errors مختلفين في الخطورة كل error بيتضرب في cost factor مناسب. الـ spam filter اللي بيعتبر مسح إيميل مهم أخطر بكتير هو Cost-based.",
+w:["صح.","غلط: معكوسة.","غلط: (ii) بيوزن الأخطاء بتكاليف مختلفة يبقى Cost-based.","غلط: (i) هدفه مكان محدد يبقى Goal-based."],
+tip:"وصل لهدف = Goal-based | الأخطاء ليها أوزان = Cost-based."});
+
+add({tp:"Agents & PEAS",s:"Slide 101",
+f:"                 Agent 1            Agent 2\n               wanted  spam       wanted  spam   (correct class)\nfilter wanted    189     1          200    38\nfilter spam       11   799            0   762",
+q:"Out of 1,000 e-mails, Agent 1 makes 12 errors and Agent 2 makes 38. Why do the slides argue that Agent 1 may actually be the worse agent?",
+o:["Because Agent 1 is slower than Agent 2.","Because Agent 1 put 11 wanted e-mails into spam (and deleted them), which are severe errors; errors should be weighted by their cost.","Because Agent 2 classified more e-mails as wanted.","Because fewer errors always means a worse agent."],a:1,
+e:"Agent 1 غلط 12 مرة بس، منهم 11 إيميل مهم (wanted) راحوا spam واتمسحوا، وده خطأ خطير. Agent 2 غلط 38 مرة، بس كلهم spam دخل الـ inbox (مزعج بس مش خطير)، وصفر إيميلات مهمة ضاعت. فلما الأخطاء مختلفة في الخطورة، لازم كل error يتوزن بالـ cost factor بتاعه. ده الفرق بين Goal-based وCost-based.",
+w:["غلط: مفيش كلام عن السرعة.","صح.","غلط: ده مش سبب إنه أحسن.","غلط: كلام غلط منطقيًا."],
+tip:"مش عدد الأخطاء، المهم تكلفتها."});
+
+add({tp:"Agents & PEAS",s:"Slides 70–71",k:"tf",
+q:"In the Poole & Mackworth view of intelligent agents, an agent must be cognitively plausible, i.e., it must solve problems exactly the way the human mind does.",
+o:TF,a:1,
+e:"غلط. التعريف ده بالعكس «drops the constraint of cognitive plausibility». الهدف إن الـ agent يحقق أهدافه بكفاءة حتى لو بطريقة غير الإنسان. زي ما الطيارات اتعملت بمبادئ الـ aerodynamics مش بتقليد جناح الطير.",
+w:["غلط: ده عكس اللي في السلايد.","صح إنها False: الـ cognitive plausibility اتشالت كشرط."],
+tip:"Airplanes ≠ Birds → drop cognitive plausibility."});
+
+/* ===== T4: Environment types ===== */
+add({tp:"Environment Types",s:"Slide 109",x:"Similar to a past exam (Q10)",
+q:"Which environment can be defined as semi-dynamic?",
+o:["An environment that does not change with the passage of time.","An agent’s performance changes with the passage of time.","An environment that will be changed.","An environment that does not change with the passage of time, but the agent’s performance score does."],a:3,
+e:"Static: العالم مش بيتغيّر وانت بتفكر. Dynamic: العالم بيتغيّر وانت بتفكر. Semi-dynamic: البيئة نفسها ثابتة مع الوقت، بس الـ performance score بتاعك بيتأثر بالوقت. المثال الكلاسيكي Chess with a clock: الرقعة مش بتتحرك وانت بتفكر، بس الوقت بيخلص فسكورك بيتأثر.",
+w:["غلط: ده تعريف Static.","غلط: ناقص الجزء الأهم، إن البيئة نفسها ثابتة.","غلط: تعريف مبهم وأقرب لـ Dynamic.","صح."],
+tip:"Semi-dynamic = Chess with a clock."});
+
+add({tp:"Environment Types",s:"Slide 107",
+q:"A “Strategic” environment is one in which:",
+o:["the world changes while the agent is thinking.","the environment is deterministic except for the actions of other agents.","the next state is a probability distribution over successor states.","the agent’s sensors cannot access the complete state.","the rules of the environment are unknown to the agent."],a:1,
+e:"Deterministic: الـ state الجاية بتتحدد 100% من الحالية + الـ action بتاعي. Stochastic: فيه distribution of successor states (عشوائية). Strategic: البيئة deterministic، والحاجة الوحيدة اللي مش في إيدك هي actions الـ agents التانيين (الخصم)، زي الشطرنج.",
+w:["غلط: ده Dynamic.","صح.","غلط: ده Stochastic.","غلط: ده Partially Observable.","غلط: ده Unknown."],
+tip:"Strategic = Deterministic + Opponent."});
+
+add({tp:"Environment Types",s:"Slide 113",x:"Past exam: Model X Fall 2022",
+q:"If an intelligent agent is performing “Autonomous Driving”, its environment can NOT be described as:",
+o:["Partially observable (not Fully observable).","Stochastic (not Deterministic nor Strategic).","Sequential (not Episodic).","Continuous (not Discrete).","Static (not Dynamic nor Semi-Dynamic)."],a:4,
+e:"من جدول السلايد 113، Autonomous Driving = Partially observable، Stochastic، Sequential، Dynamic، Continuous، Multi-agent. الشارع بيتغيّر وانت بتفكر (عربيات، ناس)، يعني Dynamic، فمينفعش نقول عليها Static.",
+w:["ينفع: الكاميرات مش بتشوف كل حاجة.","ينفع: فيه عشوائية.","ينفع: كل قرار بيأثر على اللي بعده.","ينفع: السرعة والمكان قيم continuous.","دي الإجابة: البيئة Dynamic مش Static."],
+tip:"Driving: كل حاجة صعبة (Partially, Stochastic, Sequential, Dynamic, Continuous, Multi)."});
+
+add({tp:"Environment Types",s:"Slide 113",x:"Past exam: Model Y Fall 2022",
+q:"If an intelligent agent is playing “Chess with a clock”, its environment can NOT be described as:",
+o:["Fully (not Partially) observable.","Strategic (not Deterministic nor Stochastic).","Sequential (not Episodic).","Discrete (not Continuous).","Static (not Dynamic nor Semi-Dynamic)."],a:4,
+e:"الجدول: Chess with a clock = Fully observable، Strategic، Sequential، Semi-dynamic، Discrete، Multi-agent. بسبب الساعة البيئة Semi-dynamic، فمينفعش Static.",
+w:["ينفع: كل الرقعة قدامك.","ينفع: deterministic + خصم.","ينفع: كل حركة بتأثر على اللي بعدها.","ينفع: عدد الحركات محدود.","دي الإجابة: Semi-dynamic مش Static."],
+tip:"Chess + clock = Semi-dynamic."});
+
+add({tp:"Environment Types",s:"Slide 113",
+q:"According to the slides’ table, a “Word Jumble Solver” environment is:",
+o:["Fully observable, Deterministic, Episodic, Static, Discrete, Single-agent","Fully observable, Strategic, Sequential, Semi-dynamic, Discrete, Multi-agent","Partially observable, Stochastic, Sequential, Static, Discrete, Multi-agent","Partially observable, Stochastic, Sequential, Dynamic, Continuous, Multi-agent"],a:0,
+e:"الجدول فيه 4 أمثلة: Word Jumble Solver = أسهل حاجة (Fully, Deterministic, Episodic, Static, Discrete, Single). Chess with a clock = (Fully, Strategic, Sequential, Semi-dynamic, Discrete, Multi). Scrabble = (Partially, Stochastic, Sequential, Static, Discrete, Multi). Autonomous Driving = (Partially, Stochastic, Sequential, Dynamic, Continuous, Multi).",
+w:["صح.","غلط: ده Chess with a clock.","غلط: ده Scrabble (الحروف اللي مع الخصم مخفية + السحب عشوائي).","غلط: ده Autonomous Driving."],
+tip:"Jumble = الأسهل | Driving = الأصعب."});
+
+add({tp:"Environment Types",s:"Slides 105–113",x:"Past exam: Model B Fall 2021 & SE Fall 2023",
+q:"The N-Queens problem: place N queens on an N×N board so that no two attack each other. An intelligent N-Queens Solver’s environment is:",
+o:["Episodic.","Strategic.","Stochastic.","Partially Observable.","Static."],a:4,
+e:"N-Queens لغز لاعب واحد: الرقعة كلها قدامك (Fully observable)، مفيش عشوائية (Deterministic)، مفيش خصم (Single-agent، يعني مش Strategic)، كل وزير بيأثر على اللي بعده (Sequential مش Episodic)، والبيئة مش بتتغيّر وانت بتفكر (Static).",
+w:["غلط: القرارات مترابطة، يبقى Sequential.","غلط: مفيش agents تانيين.","غلط: مفيش عشوائية.","غلط: الرقعة كلها ظاهرة.","صح."],
+tip:"Puzzles (N-Queens, Sudoku, 8-puzzle) = Fully, Deterministic, Sequential, Static, Discrete, Single."});
+
+add({tp:"Environment Types",s:"Slides 105–113",x:"Past exam: Fall 2023",
+q:"An intelligent Sudoku Solver’s environment is:",
+o:["Episodic.","Strategic.","Stochastic.","Multi-Agent.","Discrete."],a:4,
+e:"Sudoku: grid 9×9 فيه أرقام من 1 لـ 9، يعني عدد محدود من الـ states والـ actions = Discrete. وهو كمان Single-agent وDeterministic وSequential وStatic وFully observable.",
+w:["غلط: كل رقم بيأثر على الباقي (Sequential).","غلط: مفيش خصم.","غلط: مفيش عشوائية.","غلط: لاعب واحد.","صح."],
+tip:"Sudoku = Discrete."});
+
+add({tp:"Environment Types",s:"Slides 105–113",x:"Past exam: Model A Fall 2021",
+q:"Go is a two-player board game (19×19 grid, players take turns placing stones). An intelligent Go player’s environment (without a clock) is:",
+o:["Episodic.","Deterministic.","Single agent.","Partially Observable.","Static."],a:4,
+e:"Go زي الشطرنج من غير ساعة: الرقعة ظاهرة كلها (Fully observable)، فيه خصم، يعني Strategic (deterministic إلا من حركة الخصم)، وMulti-agent، وSequential. ومن غير ساعة البيئة مش بتتغيّر وانت بتفكر = Static. الاختيار (b) غلط لأن السلايدز بتسمّي البيئة اللي فيها خصم Strategic مش Deterministic.",
+w:["غلط: Sequential.","غلط: بوجود خصم السلايدز بتسمّيها Strategic.","غلط: لاعبين اتنين.","غلط: كل الحجارة ظاهرة.","صح."],
+tip:"Board game بدون ساعة = Static | بساعة = Semi-dynamic."});
+
+add({tp:"Environment Types",s:"Slide 112",k:"tf",
+q:"The distinction between Known and Unknown environments is exactly the same as the distinction between Fully Observable and Partially Observable, and it is strictly a property of the environment itself.",
+o:TF,a:1,
+e:"غلط. Known/Unknown معناها: هل الـ agent عارف «قوانين» البيئة (الـ transition model والـ rewards)؟ والسلايد بتقول صراحة إنها «strictly speaking, not a property of the environment, but of the agent’s state of knowledge». أما Observable فمعناها هل الـ sensors شايفة الـ state كلها. ممكن تبقى Known وPartially observable (زي الكوتشينة: عارف القوانين ومش شايف ورق الخصم).",
+w:["غلط: مفهومين مختلفين.","صح إنها False."],
+tip:"Known = عارف القوانين | Observable = شايف الحالة."});
+
+add({tp:"Environment Types",s:"Slide 153",k:"tf",
+q:"In this course, search is used to design goal-based agents in fully observable, deterministic, discrete, known environments.",
+o:TF,a:0,
+e:"صح. السلايد 153 بتقول كده بالنص. والـ agent لازم يلاقي sequence of actions توصّله للـ goal، والـ performance measure = (a) الوصول للـ goal و(b) قد إيه الـ path ده مكلّف.",
+w:["صح.","غلط: ده نص السلايد."],
+tip:"Search assumptions: Fully, Deterministic, Discrete, Known."});
+
+/* ===== T5: ML, DM, Big Data, Data Science ===== */
+add({tp:"ML, Data Mining & Big Data",s:"Slide 126",x:"Past exam: Model A Fall 2021",k:"tf",
+q:"Machine learning and data mining often employ the same methods and overlap significantly. However, Machine Learning focuses on prediction (based on known properties learned from the training data) while Data Mining focuses on the discovery of (previously) unknown properties in the data.",
+o:TF,a:0,
+e:"صح. ML = prediction بناءً على known properties اتعلّمها من الـ training data. DM = discovery لـ unknown properties، وهو الـ analysis step في Knowledge Discovery in Databases (KDD). خلي بالك: في Model B نفس الجملة كانت معكوسة (DM = prediction) وساعتها الإجابة False.",
+w:["صح.","غلط: الجملة مكتوبة صح بالظبط زي السلايد."],
+tip:"ML → Predict known | DM → Discover unknown."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slide 126",
+q:"Data Mining is described in the slides as the analysis step of:",
+o:["Deep Learning","Big Data","Knowledge Discovery in Databases (KDD)","Reinforcement Learning","Robotics"],a:2,
+e:"السلايد: «Data mining focuses on the discovery of (previously) unknown properties in the data. This is the analysis step of Knowledge Discovery in Databases». وفي KDD الـ key task هو اكتشاف previously unknown knowledge، أما في الـ ML فالأداء بيتقاس بقدرته إنه يعيد إنتاج الـ known knowledge.",
+w:["غلط: DL جزء من ML.","غلط: Big Data عن حجم وخصائص البيانات (5 Vs).","صح.","غلط: RL نوع ML بالـ rewards.","غلط."],
+tip:"DM = analysis step of KDD."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slide 120",k:"tf",
+q:"Machine Learning is a part of Deep Learning, which is a part of Artificial Intelligence.",
+o:TF,a:1,
+e:"غلط، الترتيب معكوس. الصح: «Deep Learning is a part of Machine Learning, which is a part of AI». يعني AI ⊃ ML ⊃ DL. الـ AI هو الدايرة الكبيرة، جواها الـ ML، وجوا الـ ML الـ DL (Neural Networks متعددة الطبقات).",
+w:["غلط: الترتيب معكوس.","صح إنها False: DL ⊂ ML ⊂ AI."],
+tip:"AI ⊃ ML ⊃ DL (زي العرايس الروسي)."});
+add({tp:"ML, Data Mining & Big Data",s:"Slide 132",x:"Past exam: Model X Fall 2022",
+q:"Big data is often described using five Vs. Veracity refers to:",
+o:["the vast amounts of data generated every second.","the speed at which new data is generated and the speed at which data moves around.","the different types of data we can now use.","the messiness or trustworthiness of the data.","that unless we can turn it into value it is useless."],a:3,
+e:"الـ 5 Vs: Volume = الكمية الضخمة كل ثانية. Velocity = سرعة توليد البيانات وحركتها. Variety = أنواع مختلفة (80% unstructured). Veracity = الـ messiness أو مدى الثقة في البيانات (الجودة والدقة صعب التحكم فيها). Value = لو ماحولتهاش لقيمة تبقى ملهاش لازمة.",
+w:["غلط: ده Volume.","غلط: ده Velocity.","غلط: ده Variety.","صح: Veracity من «verity» = الصدق.","غلط: ده Value."],
+tip:"Veracity = Trust / Messiness."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slide 132",x:"Past exam: Model Y Fall 2022",
+q:"Big data is often described using five Vs. Velocity refers to:",
+o:["the vast amounts of data generated every second.","the speed at which new data is generated and the speed at which data moves around.","the different types of data we can now use.","the messiness or trustworthiness of the data.","that unless we can turn it into value it is useless."],a:1,
+e:"Velocity = السرعة (زي velocity في الفيزيا): سرعة توليد البيانات الجديدة وسرعة انتقالها. خد بالك إن Volume برضه فيها «every second»، بس هي عن «الكمية» مش السرعة.",
+w:["غلط: ده Volume (الكمية).","صح.","غلط: ده Variety.","غلط: ده Veracity.","غلط: ده Value."],
+tip:"Velocity = Speed."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slide 132",
+q:"“80% of the world’s data is now unstructured and can’t easily be put into tables (photos, video sequences, social-media updates).” This statement explains which V of Big Data?",
+o:["Volume","Velocity","Variety","Veracity","Value"],a:2,
+e:"الـ Variety = تنوّع أنواع البيانات. السلايد بتشرحها بإن 80% من بيانات العالم unstructured (صور، فيديو، بوستات) ومش بتدخل في جداول بسهولة.",
+w:["غلط: Volume عن الكمية.","غلط: Velocity عن السرعة.","صح.","غلط: Veracity عن الجودة والثقة.","غلط: Value عن الفايدة."],
+tip:"Unstructured / types → Variety."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slide 131",
+q:"Recently, three more Vs were added to the five Vs of Big Data (making Eight Vs). They are:",
+o:["Visualization, Virality, and Viscosity","Validity, Volatility, and Vulnerability","Vision, Voice, and Video","Variance, Vector, and Version"],a:0,
+e:"السلايد 131: الـ 5 Vs الأساسية Volume, Velocity, Variety, Veracity, Value. واتضاف عليهم Visualization وVirality وViscosity، فبقوا Eight Vs.",
+w:["صح.","غلط: مش مذكورة في السلايدز.","غلط: دي أنواع بيانات.","غلط: مصطلحات إحصاء/برمجة."],
+tip:"+3 Vs: Visualization, Virality, Viscosity."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slides 131–132",x:"Past exam: Summer 2024",
+q:"A system that manages and analyses petabytes of data generated by scientific experiments primarily deals with ______.",
+o:["AI","Data Mining","Big Data","Deep Learning","None of these."],a:2,
+e:"الكلمة المفتاحية «petabytes» يعني Volume ضخم جدًا، و«manages» يعني إدارة وتخزين وتحليل كميات مهولة. ده تعريف Big Data. (لو السؤال كان «discover unknown patterns» يبقى Data Mining.)",
+w:["غلط: AI أعم من كده.","غلط: DM اكتشاف أنماط مش إدارة حجم.","صح.","غلط: DL نوع من الـ ML بالـ layers.","غلط."],
+tip:"Petabytes / vast amounts → Big Data."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slide 126",x:"Past exam: Summer 2024",
+q:"A system that analyses social-media data to discover trends in public opinion is primarily using ______, while a system that learns to play chess at a superhuman level through self-play is primarily using ______.",
+o:["Data Mining / Machine Learning","Machine Learning / Data Mining"],a:0,
+e:"تحليل بيانات السوشيال ميديا عشان «نكتشف» trends ماكناش نعرفها = Data Mining (discovery of unknown properties). البرنامج اللي «بيتعلّم» يلعب ويحسّن أداءه من التجربة (self-play) = Machine Learning (وبالتحديد Reinforcement Learning).",
+w:["صح.","غلط: معكوسة."],
+tip:"Discover patterns → DM | Learn to perform → ML."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slide 125",x:"Past exam: Model B Fall 2021",
+q:"Robot Navigation is usually an application of ______, while Estimating Life Expectancy is considered ______.",
+o:["Clustering / Regression","Reinforcement Learning / Classification","Clustering / Classification","Reinforcement Learning / Regression"],a:3,
+e:"من خريطة السلايد 125: تحت Reinforcement Learning: Real-time decisions, Game AI, Robot Navigation, Skill Acquisition, Learning Tasks. وتحت Regression (Supervised): Advertising Popularity Prediction, Weather Forecasting, Market Forecasting, Estimating Life Expectancy, Population Growth Prediction. والعمر المتوقع رقم continuous = Regression.",
+w:["غلط: Clustering للـ customer segmentation والـ recommender systems.","غلط: العمر رقم مش category.","غلط.","صح."],
+tip:"Robot Navigation → RL | Life expectancy → Regression."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slide 125",x:"Past exam: Model A Fall 2021",k:"tf",
+q:"Given data [(x₁, y₁), (x₂, y₂), …, (xₙ, yₙ)], learning a model that predicts y given x, where y is real-valued (not categorical), is considered a Classification problem.",
+o:TF,a:1,
+e:"غلط. لو y رقم real-valued (continuous) زي سعر أو درجة حرارة يبقى Regression. لو y categorical (spam/not spam، نوع مرض) يبقى Classification. الاتنين Supervised Learning لأن عندنا labels (y).",
+w:["غلط: real-valued = Regression.","صح إنها False."],
+tip:"Real number → Regression | Category → Classification."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slide 125",x:"Past exam: Model Y Fall 2022",k:"tf",
+q:"Predicting a patient’s length of stay in a hospital or his/her laboratory test values is regression, while predicting his/her type of cancer is classification.",
+o:TF,a:0,
+e:"صح. مدة الإقامة ونتايج التحاليل أرقام continuous = Regression. نوع السرطان category محددة = Classification. (عكس جملة Model X: «predicting a student’s mark percentage is classification…» كانت False لأنها معكوسة.)",
+w:["صح.","غلط: الجملة صح."],
+tip:"كام؟ → Regression | أنهي نوع؟ → Classification."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slides 48, 125",x:"Past exam: Model X Fall 2022",
+q:"Which of the following is a decision system that receives rewards for its actions at the end of a sequence of steps?",
+o:["Supervised learning","Unsupervised learning","Reinforcement learning","Deep learning"],a:2,
+e:"Reinforcement Learning = «training method based on rewarding desired behaviors and/or punishing undesired ones» (زي BabyX). الـ agent بياخد actions متتالية، وفي الآخر بياخد reward أو punishment، ويتعلّم من الـ trial and error.",
+w:["غلط: Supervised بيتعلّم من labeled data.","غلط: Unsupervised بيلاقي patterns من غير labels.","صح.","غلط: Deep learning = hierarchy of layers."],
+tip:"Rewards / trial & error → RL."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slides 120–124",x:"Past exam: Model Y Fall 2022",
+q:"Which of the following consists of a hierarchy of layers that transforms the input data into more abstract representations (i.e., extracts features from data)?",
+o:["Supervised learning","Unsupervised learning","Reinforcement learning","Deep learning"],a:3,
+e:"Deep Learning = Neural Networks متعددة الطبقات (CNN, RNN, Autoencoders, GAN). كل layer بتطلّع features أكثر abstraction من اللي قبلها: pixels ← edges ← shapes ← object. وده بيخليه يعمل feature extraction لوحده.",
+w:["غلط: ده تقسيم حسب وجود labels.","غلط.","غلط: ده بالـ rewards.","صح."],
+tip:"Hierarchy of layers → Deep Learning."});
+
+add({tp:"ML, Data Mining & Big Data",s:"Slides 124–125",x:"Past exam: Fall 2023",
+f:"a. Classification            1. Grouping similar data points into categories.\nb. Regression                2. Predicting a continuous value output from input data.\nc. Dimensionality Reduction  3. Reducing the number of features while preserving important information.\nd. Clustering                4. Assigning data points to predefined categories or labels.",
+q:"Match the machine-learning tasks (a–d) with their descriptions (1–4):",
+o:["4 2 3 1","2 4 3 1","3 2 1 4","4 1 3 2","1 3 4 2"],a:0,
+e:"Classification = predefined categories أو labels (4). Regression = continuous value (2). Dimensionality Reduction = تقليل الـ features مع الحفاظ على المعلومات المهمة (3). Clustering = تجميع البيانات المتشابهة من غير labels مسبقة (1). الفرق المهم: Classification الـ categories معروفة «predefined» (supervised)، والـ Clustering بيكوّن المجموعات بنفسه (unsupervised).",
+w:["صح: a-4, b-2, c-3, d-1.","غلط: Classification مش continuous.","غلط.","غلط: Regression مش grouping.","غلط."],
+tip:"Predefined labels = Classification | Grouping بدون labels = Clustering."});
+
+/* ===== T6: Problem solving as search & state space ===== */
+add({tp:"Search & State Space",s:"Slide 144",x:"Past exam: Model A Fall 2021",
+q:"If the Go player were implemented as a Reflex agent:",
+o:["It will consider how the world WOULD BE, not how the world IS.","It will decide based on (hypothesized) consequences of actions, not only on the current percept.","It must have a model of how the game evolves in response to actions.","It will not consider the future consequences of actions.","None of the above."],a:3,
+e:"Reflex Agent: بيبص على «how the world IS»، بيختار الـ action بناءً على الـ current percept بس، ومش بيفكر في الـ future consequences. Planning Agent: بيبص على «how the world WOULD BE»، قراراته مبنية على consequences متوقعة، ولازم يكون عنده model للعالم، ولازم يعمل formulate لـ goal.",
+w:["غلط: ده Planning agent.","غلط: ده Planning agent.","غلط: ده Planning agent.","صح.","غلط."],
+tip:"Reflex = IS (now) | Planning = WOULD BE (future)."});
+
+add({tp:"Search & State Space",s:"Slide 144",x:"Past exam: Model B Fall 2021",
+q:"If the N-Queens Solver were implemented as a Planning agent:",
+o:["It will consider how the world WOULD BE, not how the world IS.","It will decide based on (hypothesized) consequences of actions, not only on the current percept.","It must have a model of how the game evolves in response to actions.","All of the above.","None of the above."],a:3,
+e:"كل الصفات (a) و(b) و(c) صفات الـ Planning agent بالنص من السلايد 144. وكمان «Must formulate a goal».",
+w:["صفة صح بس مش لوحدها.","صفة صح بس مش لوحدها.","صفة صح بس مش لوحدها.","صح: كلهم.","غلط."],
+tip:"Planning agent: WOULD BE + consequences + model + goal."});
+
+add({tp:"Search & State Space",s:"Slides 148–149",
+q:"Which statement about heuristics is FALSE?",
+o:["A heuristic is a strategy for selectively exploring the search space.","It guides the search along lines that have a high probability of success.","It employs knowledge about the nature of a problem to find a solution.","It guarantees an optimal solution to the problem.","Human beings use many heuristics in problem solving."],a:3,
+e:"السلايد 149 بتقول: الـ heuristic «does NOT guarantee an optimal solution to the problem but can come close most of the time». والبني آدم مش بيعمل exhaustive search، بيستخدم «judgmental rules» من الخبرة اسمها heuristics.",
+w:["صح (مش هي الإجابة).","صح (مش هي الإجابة).","صح (مش هي الإجابة).","دي الإجابة: الجملة غلط، الـ heuristic مش بيضمن الحل الأمثل.","صح (مش هي الإجابة)."],
+tip:"Heuristic ≠ guaranteed optimal."});
+
+add({tp:"Search & State Space",s:"Slides 149, 272",x:"Similar to a past exam (Q12)",
+q:"Which is used to improve the performance of heuristic search?",
+o:["The quality of nodes.","The quality of the heuristic function.","A simpler form of nodes.","None of the above."],a:1,
+e:"الـ heuristic search بيرتّب الـ nodes على حسب f(N) أو h(N). كل ما الـ heuristic function كانت أدق (more informative) وبتقدّر المسافة للهدف أحسن، كل ما بنـ expand nodes أقل ونوصل أسرع. السلايدز: hill climbing ينفع «if the evaluation function is sufficiently informative»، و«good heuristics should provide some global look-ahead».",
+w:["غلط: الـ nodes هي الـ states نفسها ومش في إيدينا.","صح.","غلط: تبسيط الـ node مش هيحسّن الاختيار.","غلط."],
+tip:"Better h(N) = faster search."});
+
+add({tp:"Search & State Space",s:"Slide 160",
+q:"A state space is represented by the four-tuple [N, A, S, GD]. What does A represent?",
+o:["The set of agents in the environment.","The set of arcs between nodes, corresponding to the steps in a problem-solving process.","The set of actuators of the agent.","The set of all goal states.","The set of attributes of a state."],a:1,
+e:"N = Nodes (الـ states). A = Arcs بين الـ nodes، وهي الـ steps في عملية الحل. S = Start state(s) (nonempty subset of N). GD = Goal states، وبتتوصف بـ measurable property للـ state أو property للـ solution path.",
+w:["غلط.","صح.","غلط: Actuators دي في PEAS.","غلط: ده GD.","غلط."],
+tip:"[N, A, S, GD] = Nodes, Arcs, Start, Goal."});
+
+add({tp:"Search & State Space",s:"Slides 160, 165",x:"Past exam: Model A Fall 2021",k:"tf",
+q:"In the game tree (state space), a given board configuration N is represented using an arc (edge).",
+o:TF,a:1,
+e:"غلط. الـ board configuration دي state، والـ state بيتمثّل بـ node (vertex). الـ arcs بتمثّل الـ moves (الـ actions) اللي بتنقلنا من board لـ board. في Tic-Tac-Toe: Nodes = كل configurations الـ X وO، Arcs = legal moves. (في Model B كانت «represented using a vertex» والإجابة True.)",
+w:["غلط: الـ board = node.","صح إنها False."],
+tip:"State = Node | Move = Arc."});
+
+add({tp:"Search & State Space",s:"Slide 166",x:"Past exam: Model X Fall 2022",
+q:"Given that n is the number of nodes (cities) when solving a Travelling Salesperson Problem (TSP), the number of individual paths in a fully-connected TSP can be calculated as:",
+o:["n!","(n − 1)!","n × n","n! + 1"],a:1,
+e:"في TSP البداية ثابتة (home city)، فبنرتّب الـ (n − 1) مدينة الباقيين بكل الطرق = (n − 1)!. وده بيختلف عن Tic-Tac-Toe اللي فيها 9! paths (9 خانات بيتملوا بالترتيب).",
+w:["غلط: n! لو البداية مش ثابتة (زي Tic-Tac-Toe = 9!).","صح.","غلط.","غلط."],
+tip:"TSP = (n − 1)! | Tic-Tac-Toe = 9!."});
+
+add({tp:"Search & State Space",s:"Slide 163",
+q:"How many states does the 8-puzzle have?",
+o:["9! = 362,880","8! = 40,320","181,440 (9!/2)","~10 trillion","9² = 81"],a:2,
+e:"السلايد 163: 8-puzzle = 181,440 states (9!/2). القسمة على 2 لأن نص الترتيبات بس هو اللي ينفع نوصله من أي state. والـ 15-puzzle حوالي 10 trillion، والـ 24-puzzle حوالي 10²⁵. الـ actions: Move blank left/right/up/down، والـ path cost = 1 لكل move.",
+w:["غلط: ده كل الترتيبات من غير شرط الوصول.","غلط.","صح.","غلط: ده الـ 15-puzzle.","غلط."],
+tip:"8-puzzle = 9!/2 = 181,440."});
+
+add({tp:"Search & State Space",s:"Slides 167–168",
+q:"Which search direction would be preferable for a theorem prover for plane geometry?",
+o:["Data-driven search (forward chaining)","Goal-driven search (backward chaining)","Both are always equally good","Neither; only Minimax can be used"],a:1,
+e:"Goal-Driven (backward chaining) مناسب لما: الـ goal موجود في المسألة أو سهل نكتبه (النظرية اللي عايزين نثبتها)، وفيه عدد كبير من الـ rules اللي بتولّد facts جديدة (لو مشينا forward من الـ axioms هنطلّع facts كتير ملهاش لازمة). عشان كده بنبدأ من النظرية ونرجع ورا للـ axioms.",
+w:["غلط: forward هيولّد facts كتير ملهاش علاقة بالنظرية.","صح.","غلط.","غلط: Minimax للألعاب الثنائية."],
+tip:"الهدف معروف + rules كتير → Goal-driven."});
+
+add({tp:"Search & State Space",s:"Slide 168",
+q:"Data-Driven Search (forward chaining) is suggested when:",
+o:["A goal is given in the problem statement or can easily be formulated.","There is a large number of rules that produce new facts.","Problem data are not given but acquired by the problem solver.","There is a large number of potential goals."],a:3,
+e:"Data-Driven مناسب لو: الـ data موجودة في المسألة من الأول، وفيه طرق قليلة نستخدم بيها الـ facts، وفيه «عدد كبير من الـ goals المحتملة»، أو صعب نكوّن goal أو hypothesis. أما باقي الاختيارات فهي شروط الـ Goal-Driven.",
+w:["غلط: ده شرط Goal-driven.","غلط: ده شرط Goal-driven.","غلط: ده شرط Goal-driven.","صح."],
+tip:"Goals كتير أو مش واضحة → Data-driven."});
+
+add({tp:"Search & State Space",s:"Slide 186",k:"tf",
+q:"A node and a state are the same thing: both are just a representation of the world.",
+o:TF,a:1,
+e:"غلط. الـ State = representation of the world. الـ Node = data structure جوا الـ search tree، بيشيل الـ state ومعاها pointer للـ parent والـ path cost ومعلومات تانية. نفس الـ state ممكن تظهر في أكتر من node في الشجرة.",
+w:["غلط.","صح إنها False."],
+tip:"Node = State + parent pointer + path cost."});
+
+add({tp:"Search & State Space",s:"Slide 265",x:"Past exam: Model B Fall 2021 & SE Fall 2023",k:"tf",
+q:"When applying the Breadth-First Search or the Depth-First Search algorithm to the N-Queens game tree, it is possible to explore a specific node more than once.",
+o:TF,a:1,
+e:"غلط. السلايد 265 بتصنّف الـ Repeated States: No (8-queens: search tree is finite)، Few (assembly planning)، Many (8-puzzle و robot navigation: search tree is infinite). في N-Queens كل مستوى بنحط وزير جديد بس، ومفيش رجوع لـ state قديمة، فمفيش node بيتكرر.",
+w:["غلط: 8-queens = No repeated states.","صح إنها False."],
+tip:"Queens = No repeats | 8-puzzle = Many repeats."});
+
+/* ===== T7: Backtracking ===== */
+add({tp:"Backtracking",s:"Slide 194",
+q:"In the Backtracking algorithm, which list contains the states whose descendants have failed to contain a goal node?",
+o:["SL (State List)","NSL (New State List)","DE (Dead Ends)","CS (Current State)"],a:2,
+e:"Data structures الـ Backtracking: SL = الـ states في الـ path الحالي (ولو لقينا الـ goal يبقى هو الـ solution path). NSL = nodes مستنية evaluation. DE = states الـ descendants بتوعها فشلت توصل لـ goal. CS = الـ state اللي بنفكر فيها دلوقتي.",
+w:["غلط: SL = current path.","غلط: NSL = awaiting evaluation.","صح.","غلط: CS = current state."],
+tip:"SL = path | NSL = waiting | DE = failed | CS = now."});
+const BT_TREE="            A\n         /  |  \\\n        B   C   D\n       / \\   \\\n      E   F   G      (G is the goal)\n     / \\   \\\n    H   I   J\n\nChildren are generated left to right.";
+
+add({tp:"Backtracking",s:"Slides 199–203",f:BT_TREE,
+q:"Backtracking on the tree above: SL = [E B A], NSL = [E F B C D A]. H and then I are found to be dead ends, so the algorithm backtracks out of E. What is the state right after that?",
+o:["SL = [F B A]; NSL = [F B C D A]; DE = [E I H]; CS = F","SL = [F E B A]; NSL = [F B C D A]; DE = [I H]; CS = F","SL = [C A]; NSL = [C D A]; DE = [B F J E I H]; CS = C","SL = [J F B A]; NSL = [J F B C D A]; DE = [E I H]; CS = J"],a:0,
+e:"نمشي خطوة خطوة زي السلايدز: CS = E ليها أولاد H وI، فبتتحط في NSL ويبقى CS = H وSL = [H E B A]. H ملهاش أولاد، فتروح DE = [H] ويبقى CS = I وSL = [I E B A]. I ملهاش أولاد، فتروح DE = [I H]، وبعدها E مبقاش ليها أولاد غير اللي في DE، فـ E نفسها تروح DE = [E I H] وتتشال من SL وNSL. الأول في NSL دلوقتي F، فيبقى CS = F وSL = [F B A] وNSL = [F B C D A].",
+w:["صح.","غلط: E لازم تتشال من SL وتروح DE.","غلط: ده بعد ما B كلها فشلت ووصلنا لـ C.","غلط: ده الخطوة اللي بعدها (لما CS = J)."],
+tip:"Dead end → DE، وارجع لأول عنصر في NSL."});
+
+add({tp:"Backtracking",s:"Slides 196–199",x:"Past exam: Fall 2022 & SE Fall 2023",f:BT_TREE,
+q:"In the tree above, during the first few steps of searching, ([A], [B A], [E B A]) can be a part of:",
+o:["Backtracking’s State List (SL).","Depth-first search Closed structure.","Breadth-first search Closed structure.","a & b.","a & c."],a:3,
+e:"في الـ Backtracking: الـ SL بتبقى [A] ← [B A] ← [E B A] (بنضيف في الأول). والـ DFS (عند Luger) بينزل على نفس الفرع بالظبط، فالـ Closed list بتبقى [A] ← [B A] ← [E B A]. أما الـ BFS فبيمشي level by level، فالـ closed بتبقى [A] ← [B A] ← [C B A]، يعني مستحيل E تيجي بعد B على طول.",
+w:["صح بس مش لوحدها.","صح بس مش لوحدها.","غلط: BFS هيروح لـ C قبل E.","صح: الاتنين.","غلط: (c) غلط."],
+tip:"Backtracking ≈ DFS في ترتيب الزيارة."});
+
+/* ===== T8: Blind / Uninformed search ===== */
+add({tp:"Blind Search",s:"Slides 232–257",
+q:"In Depth-First Search new nodes are inserted at the front of the FRINGE, while in Breadth-First Search they are inserted at the end. So the FRINGE of DFS and BFS is implemented, respectively, as a:",
+o:["Stack (LIFO) / Queue (FIFO)","Queue (FIFO) / Stack (LIFO)","Priority queue / Priority queue","Queue (FIFO) / Queue (FIFO)"],a:0,
+e:"الإضافة في «أول» الـ fringe والسحب من الأول برضه = آخر حاجة دخلت أول حاجة تطلع = Stack (LIFO)، وده DFS. الإضافة في «آخر» الـ fringe والسحب من الأول = أول حاجة دخلت أول حاجة تطلع = Queue (FIFO)، وده BFS.",
+w:["صح.","غلط: معكوسة.","غلط: الـ priority queue لـ UCS وBest-First.","غلط."],
+tip:"DFS = Stack | BFS = Queue | UCS & Best-First = Priority Queue."});
+
+add({tp:"Blind Search",s:"Slides 268, 284",x:"Past exam: Model X Fall 2022",
+q:"For a proper implementation of the Best-First Search algorithm and the Uniform-Cost Search (UCS) algorithm, which data structure would you use to store the fringe nodes of each?",
+o:["For Best-First we use a queue, & for UCS we use a stack.","We use a priority queue for both.","For Best-First we use a stack, & for UCS we use a queue.","We use a queue for both.","For Best-First we use a priority queue, & for UCS we use a queue."],a:1,
+e:"UCS: «The queue FRINGE is sorted in increasing cost» g(N). Best-First: «Order the nodes in the fringe in increasing values of f(N)»، والسلايد 284: «Open sorted list is represented as a priority queue». الاتنين بيطلّعوا أقل قيمة الأول = Priority Queue.",
+w:["غلط.","صح.","غلط.","غلط: الـ queue العادي لـ BFS.","غلط: UCS برضه sorted."],
+tip:"Sorted by cost or f(N) → Priority Queue."});
+
+add({tp:"Blind Search",s:"Slides 244, 262",x:"Past exam: Model Y Fall 2022",
+q:"For a proper implementation of the Breadth-First Search (BFS) algorithm and the Bidirectional Search (BDS) algorithm, which data structure would you use to store the fringe nodes of each?",
+o:["For BFS we use a queue, & for BDS we use a stack.","We use a priority queue for both.","For BFS we use a stack, & for BDS we use a queue.","We use a queue for both.","For BFS we use a priority queue, & for BDS we use a queue."],a:3,
+e:"الـ Bidirectional بيشغّل بحثين في نفس الوقت (forward من الـ start وbackward من الـ goal) لحد ما يتقابلوا، وكل واحد فيهم بيبقى BFS عادي عشان يضمن الـ shortest path. يعني الاتنين Queue (FIFO).",
+w:["غلط.","غلط: مفيش ترتيب بالـ cost.","غلط.","صح.","غلط."],
+tip:"Bidirectional = 2 × BFS → Queue."});
+
+const BIN_TREE="                1\n          /           \\\n        2               3\n      /   \\           /   \\\n     4     5         6     7\n    / \\   / \\       / \\   / \\\n   8   9 10  11   12  13 14  15";
+
+add({tp:"Blind Search",s:"Slides 232–235",f:BIN_TREE,
+q:"Depth-First Search on the tree above (children left to right). FRINGE starts as (1). After expanding nodes 1, 2 and 4 (in this order), the FRINGE is:",
+o:["(4, 5, 6, 7)","(5, 3, 8, 9)","(8, 9, 5, 3)","(3, 5, 8, 9)","(9, 8, 5, 3)"],a:2,
+e:"DFS بيحط الأولاد في «أول» الـ fringe: expand 1 → (2, 3). Expand 2 → أولاده 4 و5 في الأول → (4, 5, 3). Expand 4 → أولاده 8 و9 في الأول → (8, 9, 5, 3). وده بالظبط اللي في سلايد 235.",
+w:["غلط: ده BFS بعد expand 1 و2 و3.","غلط: الأولاد بيدخلوا في الأول مش الآخر.","صح.","غلط: ده إضافة في الآخر (BFS style).","غلط: الترتيب جوه الأولاد left to right."],
+tip:"DFS: الأولاد في الأول."});
+
+add({tp:"Blind Search",s:"Slides 244–247",f:BIN_TREE,
+q:"Breadth-First Search on the same tree. FRINGE starts as (1). After expanding nodes 1, 2 and 3 (in this order), the FRINGE is:",
+o:["(4, 5, 3)","(8, 9, 5, 3)","(4, 5, 6, 7)","(6, 7, 4, 5)","(3, 4, 5)"],a:2,
+e:"BFS بيحط الأولاد في «آخر» الـ fringe: expand 1 → (2, 3). Expand 2 → (3, 4, 5). Expand 3 → (4, 5, 6, 7). يعني level by level.",
+w:["غلط: ده DFS بعد expand 1 و2.","غلط: ده DFS.","صح.","غلط: أولاد 3 بيروحوا في الآخر.","غلط: ده بعد expand 1 و2 بس."],
+tip:"BFS: الأولاد في الآخر."});
+
+add({tp:"Blind Search",s:"Slide 259",
+q:"Depth-Limited search (depth-first with depth cutoff k) has three possible outcomes. They are:",
+o:["Solution, Failure (no solution), Cutoff (no solution within cutoff)","Solution, Loop, Timeout","Win, Lose, Draw","Optimal, Sub-optimal, Infinite"],a:0,
+e:"Depth-Limited = DFS بس مبننزلش تحت depth k. النتايج: Solution (لقينا حل)، Failure (مفيش حل خالص)، Cutoff (مفيش حل لحد العمق ده، يمكن يكون فيه تحت). والـ Iterative Deepening بيكرر Depth-Limited لـ k = 0, 1, 2, … لحد ما يلاقي الحل.",
+w:["صح.","غلط.","غلط: دي نتايج لعبة.","غلط."],
+tip:"Depth-Limited: Solution / Failure / Cutoff."});
+
+add({tp:"Blind Search",s:"Slides 259–261",x:"Past exam: Model A Fall 2021",
+q:"Considering the Go game tree, which of the following statements are correct?",
+o:["Depth-First Search (DFS) is no good because the space might be (effectively) infinite in depth.","Breadth-First Search (BFS) guarantees to find the shortest path to a goal state.","The branching factor might be very high, so the BFS storage cost could be huge.","Iterative deepening will give us the shortest sequence of links with the space efficiency of DFS.","All of the mentioned."],a:4,
+e:"كل الجمل صح: DFS ممكن ينزل في فرع عميق جدًا (effectively infinite). BFS و Iterative Deepening بيضمنوا أقصر حل. BFS عنده high space complexity، ومع branching factor كبير (361 نقطة في Go) الذاكرة بتنفجر. Iterative Deepening بيجمع ميزة BFS (shortest) مع ميزة DFS (low space).",
+w:["صح بس مش لوحدها.","صح بس مش لوحدها.","صح بس مش لوحدها.","صح بس مش لوحدها.","صح: كلهم."],
+tip:"IDS = BFS shortest + DFS memory."});
+
+add({tp:"Blind Search",s:"Slides 262–264",
+q:"A search tree has uniform branching factor b = 10 and the goal is at depth d = 6. Approximately how many nodes does Bidirectional search generate compared with a single Breadth-First search?",
+o:["About 2,000 (2 × 10³) vs. about 1,000,000 (10⁶)","About 1,000,000 for both","About 60 vs. about 1,000","About 10³ vs. about 10³"],a:0,
+e:"BFS عادي من البداية للهدف ≈ b^d = 10⁶ = مليون. الـ Bidirectional: بحثين كل واحد بيمشي نص المسافة d/2 = 3، فكل بحث ≈ b^(d/2) = 10³، والمجموع ≈ 2 × 10³ = 2,000. وده «much less than» الـ b^d.",
+w:["صح: b^(d/2) + b^(d/2) < b^d.","غلط.","غلط: b × d مش صح.","غلط: نسيت تجمع البحثين وتقارن بالـ BFS."],
+tip:"Bidirectional: O(b^(d/2)) لكل اتجاه."});
+
+add({tp:"Blind Search",s:"Slide 262",x:"Past exam: Summer 2024",k:"tf",
+q:"Bidirectional search is feasible in chess, i.e., it can be used to search a state space for a chess game effectively.",
+o:TF,a:1,
+e:"غلط. الـ Bidirectional محتاج goal state واحدة واضحة نبدأ منها backward، ومحتاج نقدر نحسب الـ predecessors. في الشطرنج فيه عدد ضخم جدًا من أوضاع الـ checkmate (الـ goal مش state واحدة)، والبحث backward مع خصم بيلعب صعب جدًا. عشان كده الشطرنج بيستخدم Minimax وAlpha-Beta.",
+w:["غلط.","صح إنها False."],
+tip:"Bidirectional يحتاج goal واحدة معروفة."});
+
+add({tp:"Blind Search",s:"Slide 268",
+f:"S --1--> A,  S --5--> B,  S --15--> C\nA --10--> G,  B --5--> G,  C --5--> G",
+q:"Uniform-Cost Search from S to goal G on the graph above. Which path (and cost) is returned?",
+o:["S → A → G, cost 11","S → B → G, cost 10","S → C → G, cost 20","S → A → G, cost 1"],a:1,
+e:"الـ fringe مترتبة بالـ g(N): (S0) ← expand S: (A1, B5, C15) ← expand A: (B5, G11, C15) ← expand B: (G10, G11, C15). G10 هي الأقل فتطلع الأول وهي الـ goal، يعني الحل S→B→G بتكلفة 10. خد بالك إن G11 اتولّدت الأول، بس UCS بيـ check الـ goal لما الـ node «تطلع» من الـ fringe، مش لما تتولّد، وده اللي بيضمن الحل الأمثل.",
+w:["غلط: اتولّدت الأول بس مش الأقل.","صح.","غلط: أغلى.","غلط: 1 تكلفة S→A بس."],
+tip:"UCS: sort by g(N)، والـ goal test وقت الـ expansion."});
+
+add({tp:"Blind Search",s:"Slides 229, 263",x:"Past exam: Summer 2024",
+q:"If you were to use a brute-force search algorithm to determine the best move in a chess game, which factor would most significantly impact the search time?",
+o:["The number of pieces on the board.","The type of pieces on the board.","The position of the king.","The player’s skill level.","The number of possible moves at each turn."],a:4,
+e:"الـ Brute-force = Blind / Exhaustive search، وحجم الشجرة = b^d. الـ b هو الـ branching factor = عدد الـ moves الممكنة في كل دور. كل ما زاد b الشجرة بتكبر exponentially، فده العامل الأكبر في الوقت.",
+w:["غلط: تأثيرها غير مباشر.","غلط.","غلط.","غلط: الـ brute force مش بيعتمد على مهارة اللاعب.","صح: branching factor b."],
+tip:"Time ∝ b^d → b = moves per turn."});
+
+/* ===== T9: Heuristic / Informed search ===== */
+add({tp:"Heuristic Search",s:"Slide 273",x:"Past exam: Model A Fall 2021",
+q:"If h(N) for a given Go board N is 100, the 100 represents the:",
+o:["Estimate of the cost of the path from the Start Node to the Goal.","Estimate of the cost from N to the Goal.","Cost of the path from the Start Node to N.","None of the above."],a:1,
+e:"h(N) = heuristic function = «estimate» لتكلفة أرخص path من N للـ goal. وg(N) = التكلفة الفعلية من الـ start لـ N. وf(N) = g(N) + h(N) = تقدير تكلفة الحل كله لو عدّينا من N.",
+w:["غلط: ده f(N).","صح.","غلط: ده g(N).","غلط."],
+tip:"h = N → Goal (estimate) | g = Start → N (actual)."});
+
+add({tp:"Heuristic Search",s:"Slides 268, 276",x:"Past exam: Fall 2023",
+q:"A Sudoku configuration is given by the user to the AI agent as the puzzle to solve (it has 29 filled cells and 52 empty cells). What is its g(N)?",
+o:["29","52","0","81","36"],a:2,
+e:"g(N) = cost of the best path found so far between the initial node and N. الـ puzzle اللي اليوزر إداه هو الـ start state نفسها، ومفيش أي خطوة اتعملت لسه، يعني g = 0. باقي الأرقام (29 و52 و81) هي عدد الخانات المليانة أو الفاضية أو الكلية، وده ممكن ينفع h(N) لكن مش g.",
+w:["غلط: عدد الخانات المليانة مش تكلفة path.","غلط: عدد الفاضي ممكن يبقى h(N) مش g.","صح: start state → g = 0.","غلط: إجمالي الخانات.","غلط."],
+tip:"Start node → g(N) = 0 دايمًا."});
+
+add({tp:"Heuristic Search",s:"Slide 276",
+q:"If the evaluation function is f(N) = h(N), the strategy is called:",
+o:["Uniform-Cost Search","Greedy Best-First Search","Breadth-First Search","Iterative Deepening","Minimax"],a:1,
+e:"f(N) = h(N) → Greedy best-first: بيختار الـ node اللي «شكلها» أقرب للهدف ومش بيبص على التكلفة اللي اتصرفت. f(N) = g(N) + h(N) → بياخد في اعتباره التكلفة الفعلية + التقدير (فكرة A*). وUCS = f(N) = g(N) بس.",
+w:["غلط: UCS يعتمد على g(N) بس.","صح.","غلط: Blind.","غلط: Blind.","غلط: للألعاب."],
+tip:"f = h → Greedy | f = g → UCS | f = g + h → A*."});
+
+const PUZ="   N            Goal\n 5 _ 8         1 2 3\n 4 2 1         4 5 6\n 7 3 6         7 8 _";
+
+add({tp:"Heuristic Search",s:"Slide 273",f:PUZ,
+q:"For the 8-puzzle state N above, what is h(N) = number of misplaced tiles?",
+o:["4","5","6","8","13"],a:2,
+e:"نقارن كل tile بمكانها في الـ goal (الخانة الفاضية مش بتتعد): 1 مش في مكانها، 2 مش في مكانها، 3 مش في مكانها، 4 في مكانها ✓، 5 مش في مكانها، 6 مش في مكانها، 7 في مكانها ✓، 8 مش في مكانها. يبقى 6 tiles misplaced، وده نفس سلايد 273.",
+w:["غلط.","غلط.","صح.","غلط: 4 و7 في مكانهم.","غلط: ده الـ Manhattan distance."],
+tip:"Misplaced: عد بس، متحسبش مسافات، ومتعدش الفاضي."});
+
+add({tp:"Heuristic Search",s:"Slide 274",f:PUZ,
+q:"For the same state N, what is h(N) = sum of the distances of every tile to its goal position (Manhattan distance)?",
+o:["6","10","11","13","16"],a:3,
+e:"لكل tile: (فرق الصفوف + فرق الأعمدة). 1 في (2,3) والهدف (1,1) = 1 + 2 = 3. 2 في (2,2) والهدف (1,2) = 1. 3 في (3,2) والهدف (1,3) = 2 + 1 = 3. 4 = 0. 5 في (1,1) والهدف (2,2) = 2. 6 في (3,3) والهدف (2,3) = 1. 7 = 0. 8 في (1,3) والهدف (3,2) = 2 + 1 = 3. المجموع = 3 + 1 + 3 + 0 + 2 + 1 + 0 + 3 = 13 ✓ (سلايد 274).",
+w:["غلط: ده misplaced tiles.","غلط.","غلط.","صح.","غلط."],
+tip:"Manhattan = Σ (|Δrow| + |Δcol|)."});
+
+add({tp:"Heuristic Search",s:"Slides 283, 316",x:"Past exam: Fall 2023",
+q:"Which search algorithm will most likely get stuck in a local optimum when solving Sudoku?",
+o:["Breadth-First","Depth-First","Best-First","Hill Climbing","Depth-First with Iterative Deepening"],a:3,
+e:"الـ Hill Climbing = «method of blind mountain climbers»: بيختار أحسن child بس، ومش بيحتفظ بباقي البدائل (مفيش open list). لو وصل لـ state أحسن من كل أولادها ومش goal، يبقى local maximum ويقف. ونفس الكلام في الـ Steepest descent: «may get stuck into local minimum».",
+w:["غلط: BFS exhaustive.","غلط: DFS بيعمل backtrack.","غلط: Best-First عنده open list ويقدر يرجع لـ node من أي level.","صح.","غلط: exhaustive."],
+tip:"Hill climbing → local maximum."});
+
+add({tp:"Heuristic Search",s:"Slide 284",
+q:"Which statement about Best-First Search is TRUE?",
+o:["It always expands the deepest node first.","It uses no closed list.","The best state to be examined in each iteration may be from any level of the state space, and the open list is a priority queue.","It always expands nodes level by level like BFS.","It guarantees an optimal solution with any evaluation function."],a:2,
+e:"Best-First: بيستخدم open list (الـ edge الحالية للبحث) وclosed list (الـ states اللي اتزارت)، والـ open مترتبة بالـ heuristic estimate، والأفضل بيتبحث الأول حتى لو من أي level. والـ open sorted list = priority queue.",
+w:["غلط: ده DFS.","غلط: بيستخدم closed list.","صح.","غلط: ده BFS.","غلط: الـ heuristic مش بيضمن الحل الأمثل."],
+tip:"Best-First = open (priority queue) + closed، ومن أي level."});
+
+add({tp:"Heuristic Search",s:"Slide 281",
+q:"Using symmetry reduction, the 9 possible first moves of X in Tic-Tac-Toe reduce to how many distinct moves?",
+o:["9","4","3","1","8"],a:2,
+e:"بسبب التماثل (الدوران والانعكاس): الـ 4 corners كلهم نفس الحركة، والـ 4 edges (sides) كلهم نفس الحركة، والـ center واحد. فبيبقوا 3 حركات بس: corner وedge وcenter، وده بيقلّل الـ state space جدًا. وبعدها الـ heuristic reduction (most winning lines) بيدي center = 4 وcorner = 3 وedge = 2، فبيختار الـ center.",
+w:["غلط: ده من غير reduction.","غلط.","صح.","غلط.","غلط."],
+tip:"Symmetry: corner / edge / center = 3."});
+
+add({tp:"Heuristic Search",s:"Slides 148–149",x:"Past exam: Fall 2023",k:"tf",
+q:"In Sudoku, using the heuristic “select the cell with the fewest possible candidate values (i.e., the smallest domain) to fill first” may reduce the branching factor in the search space.",
+o:TF,a:0,
+e:"صح. الـ branching factor عند أي node = عدد الاختيارات المتاحة. لو اخترنا خانة ليها اختيارين بس بدل خانة ليها 7، الشجرة بتبقى أضيق بكتير، ولو غلطنا هنكتشف بسرعة. ده heuristic بيستخدم «knowledge about the nature of the problem».",
+w:["صح.","غلط."],
+tip:"Smallest domain first → smaller b."});
+
+/* ===== T10: Adversarial search ===== */
+add({tp:"Adversarial Search",s:"Slides 291–292",x:"Past exam: Model X Fall 2022",k:"tf",
+q:"In the game tree of Chess, the Minimax algorithm should be applied for choosing the next move that minimizes the possible loss.",
+o:TF,a:0,
+e:"صح. الشطرنج لعبة two-player (adversarial). MAX بيحاول يعمل maximize لفرصته، وMIN (الخصم) بيحاول يعمل minimize لفرصة MAX. فـ Minimax بيختار الحركة اللي تقلّل أسوأ خسارة ممكنة لو الخصم لعب أحسن لعب. واختيار الـ move في الشطرنج = Adversarial Planning.",
+w:["صح.","غلط."],
+tip:"Two players → Minimax."});
+
+add({tp:"Adversarial Search",s:"Slide 291",x:"Past exam: Model Y Fall 2022",k:"tf",
+q:"Choosing the next move in a game of N-Queens is considered Adversarial Planning, so Minimax should be applied.",
+o:TF,a:1,
+e:"غلط. N-Queens لغز لاعب واحد (single-agent) ومفيش خصم، فمفيش Adversarial Planning ولا Minimax. بنحلّه بـ Backtracking / DFS / Heuristic search. الـ Adversarial = «two players use the same knowledge… primary difficulty is accounting for the actions of the opponent».",
+w:["غلط: مفيش opponent.","صح إنها False."],
+tip:"لاعب واحد → مفيش Minimax."});
+
+const MM_TREE="                 A (MAX)\n        /          |           \\\n     B (MIN)     C (MIN)      D (MIN)\n    /  |  \\     /  |  \\      /  |  \\\n   3  12   8   2   4   6   14   5   2";
+
+add({tp:"Adversarial Search",s:"Slides 292, 296",f:MM_TREE,
+q:"Using Minimax on the game tree above, what is the value of the root A?",
+o:["2","3","8","12","14"],a:1,
+e:"الـ MIN nodes بتاخد أقل قيمة في أولادها: B = min(3, 12, 8) = 3، وC = min(2, 4, 6) = 2، وD = min(14, 5, 2) = 2. والـ MAX root بياخد أكبر قيمة: A = max(3, 2, 2) = 3. فـ MAX هيختار الحركة اللي توديه لـ B.",
+w:["غلط: ده قيمة C وD.","صح.","غلط.","غلط: MIN مش هيسيب MAX ياخدها.","غلط: MIN في D هيختار 2."],
+tip:"من تحت لفوق: MIN = min، MAX = max."});
+
+add({tp:"Adversarial Search",s:"Slide 299",
+q:"In Alpha-Beta pruning, Alpha (α) is associated with ______ nodes and can never ______, while Beta (β) is associated with ______ nodes and can never ______.",
+o:["MAX / decrease ; MIN / increase","MIN / decrease ; MAX / increase","MAX / increase ; MIN / decrease","MIN / increase ; MAX / decrease"],a:0,
+e:"α = MAX’s best option on the path to the root، وMAX مش هيقبل بأقل من اللي ضمنه، فـ α عمرها ما بتقل. β = MIN’s best option، وMIN مش هيقبل بأكتر من اللي ضمنه، فـ β عمرها ما بتزيد. والـ pruning بيحصل لما α ≥ β.",
+w:["صح.","غلط: معكوسة.","غلط: العكس تمامًا.","غلط."],
+tip:"α (MAX) ↑ بس | β (MIN) ↓ بس | prune لما α ≥ β."});
+
+add({tp:"Adversarial Search",s:"Slides 298–313",f:MM_TREE,
+q:"Apply Alpha-Beta pruning to the same tree (children visited left to right). Which leaves are pruned (never evaluated)?",
+o:["None","4 and 6 (under C)","5 and 2 (under D)","12 and 8 (under B)","4, 6, 5 and 2"],a:1,
+e:"B: نقيّم 3 و12 و8، يبقى B = 3 وα عند A = 3. C: أول ورقة 2، يبقى C ≤ 2 وده أقل من α = 3، يعني MAX مش هيختار C أبدًا، فنعمل prune لـ 4 و6. D: 14 (D ≤ 14، نكمّل) ثم 5 (D ≤ 5، نكمّل لأنها > 3) ثم 2 (D = 2). مفيش حاجة اتقطعت في D لأن آخر ورقة هي اللي نزّلتها تحت 3. والـ root = 3 زي الـ Minimax بالظبط.",
+w:["غلط: فيه pruning في C.","صح.","غلط: 14 و5 أكبر من 3 فلازم نكمّل.","غلط: B أول فرع ولازم يتقيّم كله.","غلط: D مفيش فيها pruning."],
+tip:"MIN child ≤ α → prune الباقي."});
+
+const AB_TREE2="                 A (MAX)\n        /          |          \\\n     B (MIN)     C (MIN)     D (MIN)\n     /   \\      /  |  \\       /  \\\n    5     6    7   4   8     3    9";
+
+add({tp:"Adversarial Search",s:"Slides 298–313",f:AB_TREE2,
+q:"Apply Alpha-Beta pruning to this tree (children visited left to right). Which leaves are pruned?",
+o:["None","8 only","9 only","8 and 9","4, 8 and 9"],a:3,
+e:"B = min(5, 6) = 5، يبقى α = 5. C: 7 ← C ≤ 7 (أكبر من 5، نكمّل)، 4 ← C ≤ 4 ≤ α فنعمل prune لـ 8. D: 3 ← D ≤ 3 ≤ α فنعمل prune لـ 9. والـ root = 5.",
+w:["غلط.","ناقص 9.","ناقص 8.","صح.","غلط: 4 اتقيّمت وهي اللي عملت الـ cutoff."],
+tip:"أول ورقة تنزّل الـ MIN تحت α تقطع اللي بعدها."});
+
+add({tp:"Adversarial Search",s:"Slide 298",x:"Past exam: Summer 2024",
+q:"Alpha-Beta pruning is a technique used to:",
+o:["Guarantee finding the optimal solution.","Reduce the number of nodes explored in a game tree.","Increase the depth of search in a game tree.","Improve the evaluation function.","None of the above."],a:1,
+e:"السلايد 298: «Alpha–beta pruning is a search algorithm that seeks to decrease the number of nodes that are evaluated by the minimax algorithm». وبيرجّع نفس الـ move اللي Minimax بيرجّعها، بس بيقطع الفروع اللي مش ممكن تأثر على القرار. وعشان كده هو الأنسب للـ search space الضخم زي الشطرنج.",
+w:["غلط: بيرجّع نفس نتيجة Minimax، فهو مش هدفه ضمان حاجة إضافية.","صح.","غلط: هو مش بيزوّد العمق بشكل مباشر.","غلط: الـ evaluation function زي ما هي.","غلط."],
+tip:"Alpha-Beta = Minimax بنفس النتيجة + nodes أقل."});
+/* ---- build the 7 models: spread topic-ordered questions evenly ---- */
+const CAPS=[15,15,15,15,15,15,10];
+const MODELS=CAPS.map(()=>[]);
+(function(){
+  const slots=[];
+  CAPS.forEach((c,m)=>{for(let j=0;j<c;j++)slots.push({m,k:(j+0.5)/c})});
+  slots.sort((a,b)=>a.k-b.k||a.m-b.m);
+  Q.forEach((q,i)=>{q.id=i+1;q.k=q.k||"mcq";MODELS[slots[i].m].push(q)});
+})();
+const LET="abcde";
+const KEY="ai310-drill-v1";
+
+let S={cur:"m0",mode:"exam",ans:{},sub:{},flags:[]};
+try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const revHidden=new Set();   // review cards where the user chose "try again"
+let warnFor=null;            // model key showing the unanswered warning
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const isFlag=id=>S.flags.includes(id);
+function ansMap(key){return S.ans[key]||(S.ans[key]={})}
+function lastAnswer(id){for(const k in S.ans){if(k!=="rev"&&S.ans[k][id]!=null)return S.ans[k][id]}return null}
+
+function renderTabs(){
+  const t=$("#tabs");
+  let h=`<button class="tab guide-tab" role="tab" aria-selected="${S.cur==="guide"}" data-k="guide">الشرح</button>`;
+  h+=MODELS.map((m,i)=>`<button class="tab" role="tab" aria-selected="${S.cur==="m"+i}" data-k="m${i}">Model ${i+1}<small>${m.length}Q</small></button>`).join("");
+  h+=`<button class="tab rev" role="tab" aria-selected="${S.cur==="rev"}" data-k="rev">★ المراجعة (${S.flags.length})</button>`;
+  t.innerHTML=h;
+  $("#m-exam").setAttribute("aria-pressed",S.mode==="exam");
+  $("#m-study").setAttribute("aria-pressed",S.mode==="study");
+  $(".seg").hidden=S.cur==="rev"||S.cur==="guide";
+}
+
+function listFor(key){
+  if(key==="rev")return Q.filter(q=>isFlag(q.id));
+  return MODELS[+key.slice(1)];
+}
+function revealed(key,q){
+  const a=ansMap(key)[q.id];
+  if(key==="rev")return !revHidden.has(q.id)||a!=null;
+  return !!S.sub[key]||(S.mode==="study"&&a!=null);
+}
+function stats(key){
+  const list=listFor(key),A=ansMap(key);let ok=0,done=0;const wrong=[];
+  list.forEach((q,i)=>{const a=A[q.id];if(a!=null){done++;if(a===q.a)ok++;else wrong.push(i+1)}else wrong.push(i+1)});
+  return {ok,done,total:list.length,wrong};
+}
+
+function renderProg(){
+  const p=$("#prog");
+  if(S.cur==="guide"){p.innerHTML="شرح مختصر + أهم النقط والمصطلحات والهنتات";return}
+  if(S.cur==="rev"){p.innerHTML=`<b>${S.flags.length}</b> سؤال متعلَّم عليه`;return}
+  const st=stats(S.cur);
+  if(S.sub[S.cur]||S.mode==="study")p.innerHTML=`جاوبت <b>${st.done}</b>/${st.total} · صح <b>${st.ok}</b>`;
+  else p.innerHTML=`جاوبت <b>${st.done}</b> من ${st.total}`;
+}
+
+function card(q,n,key){
+  const A=ansMap(key);
+  let a=A[q.id];
+  const show=revealed(key,q);
+  const prev=key==="rev"&&a==null&&show?lastAnswer(q.id):null;
+  const pick=a!=null?a:prev;
+  const state=show?(pick==null?"is-skip":pick===q.a?"is-ok":"is-bad"):"";
+  const locked=show&&!(key==="rev"&&a==null&&revHidden.has(q.id));
+  let h=`<article class="q ${state}" id="q-${key}-${n}">
+  <div class="qmeta"><span class="qn">Q${n}</span>${key==="rev"?`<span class="slide">#${q.id}</span>`:""}
+    <span class="tag">${esc(q.tp)}</span>${q.k==="tf"?`<span class="tag tf">True / False</span>`:""}
+    ${q.x?`<span class="tag exam">${esc(q.x)}</span>`:""}<span class="slide">${esc(q.s)}</span>
+    <button type="button" class="star" data-flag="${q.id}" aria-pressed="${isFlag(q.id)}">${isFlag(q.id)?"★ متعلَّم عليه":"☆ علّم للمراجعة"}</button></div>
+  <p class="qtext">${esc(q.q)}</p>${q.f?`<pre class="fig">${esc(q.f)}</pre>`:""}
+  <div class="opts">`;
+  q.o.forEach((o,i)=>{
+    let cls="",mark="";
+    if(show){
+      if(i===q.a){cls="right";mark=pick===i?"✓ your answer":"✓ correct"}
+      else if(i===pick){cls="wrong";mark="✗ your answer"}
+    }else if(pick===i)cls="sel";
+    h+=`<button type="button" class="opt ${cls}" data-q="${q.id}" data-i="${i}" ${locked?"disabled":""}><span class="bub">${LET[i]}</span><span class="t">${esc(o)}</span>${mark?`<span class="mark">${mark}</span>`:""}</button>`;
+  });
+  h+=`</div>`;
+  if(show){
+    h+=`<section class="exp" dir="rtl">
+      ${prev!=null?`<p class="hint">ده آخر اختيار ليك في النموذج. دوس «جرّب تاني» لو عايز تحلّه من الأول.</p>`:""}
+      <h4>الشرح</h4><p>${esc(q.e)}</p>
+      <div class="ans">الإجابة الصحيحة: <span>(${LET[q.a]}) ${esc(q.o[q.a])}</span></div>
+      <h4>ليه كل اختيار صح أو غلط</h4><ul class="why">${q.o.map((o,i)=>`<li class="${i===q.a?"c":"x"} ${i===pick?"me":""}"><span class="l">${LET[i]}</span><span>${esc(q.w[i])}</span></li>`).join("")}</ul>
+      <div class="tip"><b>الخلاصة:</b> ${esc(q.tip)}</div>
+      ${key==="rev"?`<div class="actions"><button type="button" class="btn" data-retry="${q.id}">جرّب تاني</button></div>`:""}
+    </section>`;
+  }else if(key==="rev"){
+    h+=`<p class="hint">اختار إجابتك والشرح هيظهر.</p>`;
+  }
+  return h+`</article>`;
+}
+
+function verdict(p){return p>=85?"ممتاز، كمّل كده.":p>=65?"كويس. راجع الأسئلة الغلط تحت.":"محتاج مراجعة. علّم على الغلط وذاكره من تاب المراجعة."}
+
+function renderMain(){
+  const key=S.cur,m=$("#main"),g=$("#guide");
+  m.hidden=key==="guide";g.hidden=key!=="guide";
+  if(key==="guide")return;
+  const list=listFor(key);
+  let h="";
+  if(key==="rev"){
+    h+=`<div class="sheet-head"><h2>المراجعة</h2><span>flagged · ${list.length}</span></div>`;
+    if(!list.length){m.innerHTML=h+`<div class="empty">لسه ماعلّمتش على أي سؤال. دوس «☆ علّم للمراجعة» على أي سؤال مش فاهمه، أو بعد ما تسلّم دوس «علّم على الغلط كله».</div>`;return}
+    h+=`<p class="hint">هنا الشرح بيبقى مفتوح على طول، ومعاه سبب كل اختيار. دوس «جرّب تاني» عشان تحلّه تاني من غير ما تشوف الإجابة.</p>`;
+    list.forEach((q,i)=>h+=card(q,i+1,key));
+    m.innerHTML=h;return;
+  }
+  const idx=+key.slice(1),st=stats(key),sub=!!S.sub[key];
+  h+=`<div class="sheet-head"><h2>Model ${idx+1}</h2><span>${list.length} questions · ${list.length} marks</span></div>`;
+  if(sub||(S.mode==="study"&&st.done===st.total)){
+    const pct=Math.round(st.ok/st.total*100);
+    const wrongIdx=list.map((q,i)=>ansMap(key)[q.id]!==q.a?i+1:0).filter(Boolean);
+    h+=`<section class="score"><div class="big"><span class="num">${st.ok} / ${st.total}</span><span class="pct">${pct}%</span><span class="verdict">${verdict(pct)}</span></div>
+    ${wrongIdx.length?`<div><div class="hint">الأسئلة الغلط أو اللي ماتجاوبتش (دوس عشان تروح لها):</div><div class="chips">${wrongIdx.map(n=>`<button type="button" class="chip" data-go="q-${key}-${n}">Q${n}</button>`).join("")}</div></div>`:""}
+    <div class="actions">${wrongIdx.length?`<button type="button" class="btn flagbtn" data-flagwrong="${key}">★ علّم على الغلط كله</button>`:""}<button type="button" class="btn" data-reset="${key}">ابدأ النموذج من جديد</button></div></section>`;
+  }
+  list.forEach((q,i)=>h+=card(q,i+1,key));
+  if(!sub&&S.mode==="exam"){
+    const left=st.total-st.done;
+    h+=`<div class="submit">${warnFor===key&&left?`<div class="warn">لسه فاضل ${left} سؤال من غير إجابة. تسلّم كده؟</div>`:""}
+      <div class="actions"><button type="button" class="btn primary" data-submit="${key}">${warnFor===key&&left?"سلّم برضه":"سلّم وشوف الإجابات"}</button></div></div>`;
+  }
+  m.innerHTML=h;
+}
+function render(){renderTabs();renderProg();renderMain()}
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.k){S.cur=b.dataset.k;warnFor=null;save();render();window.scrollTo({top:0});return}
+  if(b.id==="m-exam"||b.id==="m-study"){S.mode=b.id==="m-exam"?"exam":"study";save();render();return}
+  if(b.dataset.flag){const id=+b.dataset.flag;S.flags=isFlag(id)?S.flags.filter(x=>x!==id):S.flags.concat(id);save();
+    if(S.cur==="rev"){renderTabs();renderProg();return}
+    b.setAttribute("aria-pressed",isFlag(id));b.textContent=isFlag(id)?"★ متعلَّم عليه":"☆ علّم للمراجعة";renderTabs();return}
+  if(b.dataset.q){const id=+b.dataset.q,i=+b.dataset.i,key=S.cur;
+    ansMap(key)[id]=i;if(key==="rev")revHidden.delete(id);save();
+    const y=window.scrollY;renderProg();renderMain();window.scrollTo({top:y});return}
+  if(b.dataset.retry){const id=+b.dataset.retry;delete ansMap("rev")[id];revHidden.add(id);save();const y=window.scrollY;renderMain();window.scrollTo({top:y});return}
+  if(b.dataset.submit){const key=b.dataset.submit,st=stats(key);
+    if(st.done<st.total&&warnFor!==key){warnFor=key;const y=window.scrollY;renderMain();window.scrollTo({top:y});return}
+    S.sub[key]=true;warnFor=null;save();render();window.scrollTo({top:0,behavior:"smooth"});return}
+  if(b.dataset.reset){const key=b.dataset.reset;delete S.ans[key];delete S.sub[key];save();render();window.scrollTo({top:0});return}
+  if(b.dataset.flagwrong){const key=b.dataset.flagwrong;listFor(key).forEach(q=>{if(ansMap(key)[q.id]!==q.a&&!isFlag(q.id))S.flags.push(q.id)});save();renderTabs();renderProg();
+    b.textContent="★ اتعلّم عليهم، افتح تاب المراجعة";return}
+  if(b.dataset.go){const el=document.getElementById(b.dataset.go);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});return}
+});
+if(!(S.cur==="rev"||S.cur==="guide"||/^m[0-6]$/.test(S.cur)))S.cur="m0";
+render();
+</script>
+
+</body>
+</html>
