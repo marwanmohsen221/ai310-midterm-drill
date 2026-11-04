@@ -154,6 +154,10 @@ pre.fig{direction:ltr;text-align:left;background:var(--fig);border:1px solid var
 .kp p{margin:0 0 6px}
 .kp .how{background:var(--accent-soft);border-radius:8px;padding:6px 10px}
 .kp .how span{font-weight:600;color:var(--accent)}
+.tw table.hk{min-width:0;background:var(--sheet)}
+.hk td:first-child{width:58%}
+.gsec.hints h4{color:var(--flag)}
+.gsec.hints ol{padding-inline-start:20px}
 footer{margin-top:28px;color:var(--muted);font-size:13px}
 @media (prefers-reduced-motion:no-preference){.exp{animation:fade .18s ease-out}@keyframes fade{from{opacity:.4}to{opacity:1}}}
 </style>
@@ -521,24 +525,155 @@ footer{margin-top:28px;color:var(--muted);font-size:13px}
   <!-- ===== Hints ===== -->
   <article class="gsec hints" id="gh">
     <h3>هنتات الامتحان</h3>
-    <ul>
-      <li><b>«simulate / mimic human»</b> يبقى Acting Humanly. <b>«optimal / best move / agent»</b> يبقى Acting Rationally. <b>«reasoning / logic»</b> يبقى Thinking Rationally.</li>
-      <li>سؤال Total Turing Test غالبًا إجابته <b>All of the above</b>.</li>
-      <li>في سؤال «can NOT be described as»، دوّر على الصفة الوحيدة اللي بتعارض الجدول. للـ Driving والـ Chess with clock الإجابة كانت <b>Static</b>.</li>
-      <li>أي لغز لاعب واحد (N-Queens، Sudoku) مش adversarial ومش Strategic، والإجابة غالبًا <b>Static</b> أو <b>Discrete</b>.</li>
-      <li>جمل الـ True/False بتتعكس بين النماذج (ML ↔ DM، Classification ↔ Regression، arc ↔ vertex)، فاقرا الجملة كلها كويس.</li>
-      <li>«y real-valued» يبقى Regression، و«y categorical» يبقى Classification.</li>
-      <li>«flagging legit / unauthorized access» يبقى قلّل <b>FP</b>. «missing illness» يبقى قلّل <b>FN</b>.</li>
-      <li>«placing a stone / queen / brushes» يبقى <b>Actuators</b>. والـ «Quality, price…» يبقى <b>P</b>.</li>
-      <li>g(N) للـ puzzle اللي اليوزر إداه = <b>0</b>. وفي N-Queens الـ g غالبًا = عدد الوزرا اللي اتحطوا.</li>
-      <li>Board = <b>node</b>، وmove = <b>arc</b>. وN-Queens مفيش فيها repeated nodes.</li>
-      <li>TSP = <b>(n − 1)!</b>، وTic-Tac-Toe = <b>9!</b>، و8-puzzle = <b>181,440</b>.</li>
-      <li>سؤال Fringe: Best-First + UCS = Priority queue للاتنين، وBFS + Bidirectional = Queue للاتنين.</li>
-      <li>Backtracking ≈ DFS في الترتيب، فـ ([A], [B A], [D B A]) تبقى SL + DFS closed (<b>a &amp; b</b>).</li>
-      <li>Sudoku «stuck in local optimum» يبقى <b>Hill Climbing</b>.</li>
-      <li>Alpha-Beta: امشي left to right (أو right to left لو السؤال قال كده). أول ما الـ MIN يبقى ≤ α اقطع الباقي، وأول ما الـ MAX يبقى ≥ β اقطع الباقي.</li>
-      <li>Brute-force في الشطرنج: الوقت بيعتمد على <b>عدد الحركات في كل دور</b> (branching factor). والأنسب للشطرنج <b>Alpha-Beta</b>. والـ Bidirectional في الشطرنج <b>False</b>.</li>
-    </ul>
+    <p class="hint">كل جدول خاص بنوع سؤال. لو لقيت الكلمة اللي في العمود الأول جوه السؤال، اختار اللي في العمود التاني.</p>
+
+    <h4>1. سؤال «ده أنهي AI approach؟»</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>لو لقيت في السؤال</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>simulates / mimics human conversation، chatbot، drives like a human</td><td><b>Acting Humanly</b></td></tr>
+      <tr><td>optimal، best possible move، recommends based on preferences، intelligent agents</td><td><b>Acting Rationally</b></td></tr>
+      <tr><td>reasoning through symptoms، logic، proof، Prolog</td><td><b>Thinking Rationally</b></td></tr>
+      <tr><td>how the human mind works، cognitive science، brain model</td><td><b>Thinking Humanly</b></td></tr>
+    </tbody></table></div>
+
+    <h4>2. Turing Test و Chinese Room</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>السؤال</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>Turing Test measures intelligence as…</td><td><b>a human’s inability to detect a machine</b></td></tr>
+      <tr><td>Turing’s technique is called…</td><td><b>Imitation Game</b></td></tr>
+      <tr><td>Imitation Game considers AI as…</td><td><b>Systems that act like humans</b></td></tr>
+      <tr><td>fields crucial to pass the Total Turing Test</td><td><b>All of the above</b></td></tr>
+      <tr><td>Searle concluded Strong AI is false (True/False)</td><td><b>True</b></td></tr>
+      <tr><td>specific tasks without consciousness</td><td><b>Weak AI / ANI</b></td></tr>
+      <tr><td>human-like understanding and feeling</td><td><b>Strong AI</b></td></tr>
+    </tbody></table></div>
+
+    <h4>3. سؤال PEAS</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>لو الحاجة اللي في السؤال…</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>quality, price, accuracy, safe, fast، «aims to…»</td><td><b>P</b>: Performance measure</td></tr>
+      <tr><td>rooms, furniture, roads, web sites, vendors</td><td><b>E</b>: Environment</td></tr>
+      <tr><td>brushes, steering, placing a stone / queen, display, fill form</td><td><b>A</b>: Actuators</td></tr>
+      <tr><td>camera, GPS, keyboard, web pages read, incoming emails</td><td><b>S</b>: Sensors</td></tr>
+    </tbody></table></div>
+
+    <h4>4. سؤال «which metric should be minimised?»</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>لو لقيت في السؤال</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>mistakenly flagging legitimate، unauthorized access، important email deleted</td><td><b>False Positives</b></td></tr>
+      <tr><td>illness missed، fraud not detected، not missed</td><td><b>False Negatives</b></td></tr>
+    </tbody></table></div>
+
+    <h4>5. سؤال «Goal-based ولا Cost-based؟»</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>لو لقيت في السؤال</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>reach room X، accurate translations، meet deadlines، achieve goals</td><td><b>Goal-based</b></td></tr>
+      <tr><td>minimise misdiagnosis، most cost-effective، failure is annoying، errors weighted</td><td><b>Cost-based</b></td></tr>
+    </tbody></table></div>
+
+    <h4>6. سؤال Environment</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>نوع المسألة</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>Chess with a clock: «can NOT be…»</td><td><b>Static</b> (لأنها Semi-dynamic)</td></tr>
+      <tr><td>Autonomous Driving: «can NOT be…»</td><td><b>Static</b> (لأنها Dynamic)</td></tr>
+      <tr><td>Go أو Chess من غير ساعة: «environment is…»</td><td><b>Static</b></td></tr>
+      <tr><td>N-Queens Solver: «environment is…»</td><td><b>Static</b></td></tr>
+      <tr><td>Sudoku Solver: «environment is…»</td><td><b>Discrete</b></td></tr>
+      <tr><td>does not change with time but the score does</td><td><b>Semi-dynamic</b></td></tr>
+      <tr><td>deterministic except for the actions of other agents</td><td><b>Strategic</b></td></tr>
+    </tbody></table></div>
+    <p class="hint">أي لغز لاعب واحد (N-Queens، Sudoku) مش Strategic ومش Multi-agent ومش Stochastic.</p>
+
+    <h4>7. سؤال «أنهي نوع ML؟»</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>لو الناتج / الكلمة</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>رقم: price, %, temperature, length of stay, life expectancy, market forecasting</td><td><b>Regression</b></td></tr>
+      <tr><td>نوع: spam/not, pass/fail, cancer type, news topics, image classification</td><td><b>Classification</b></td></tr>
+      <tr><td>grouping, segmentation, recommender systems, without labels</td><td><b>Clustering</b></td></tr>
+      <tr><td>reducing features / dimensions</td><td><b>Dimensionality Reduction</b></td></tr>
+      <tr><td>rewards, trial and error, robot navigation, game AI</td><td><b>Reinforcement Learning</b></td></tr>
+      <tr><td>combining multiple models</td><td><b>Ensemble Learning</b></td></tr>
+      <tr><td>hierarchy of layers, extracts features</td><td><b>Deep Learning</b></td></tr>
+      <tr><td>labelled training data</td><td><b>Supervised Learning</b></td></tr>
+    </tbody></table></div>
+
+    <h4>8. سؤال «ML ولا Data Mining ولا Big Data؟»</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>لو لقيت في السؤال</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>learns to predict / play / navigate</td><td><b>Machine Learning</b></td></tr>
+      <tr><td>identifies patterns، analyses trends، insights from reviews</td><td><b>Data Mining</b></td></tr>
+      <tr><td>petabytes، vast amounts، large unstructured data</td><td><b>Big Data</b></td></tr>
+      <tr><td>reason and decide like human intelligence</td><td><b>AI</b></td></tr>
+    </tbody></table></div>
+
+    <h4>9. سؤال الـ 5 Vs</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>لو لقيت في السؤال</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>vast amounts every second</td><td><b>Volume</b></td></tr>
+      <tr><td>speed of generation / movement</td><td><b>Velocity</b></td></tr>
+      <tr><td>different types، 80% unstructured</td><td><b>Variety</b></td></tr>
+      <tr><td>messiness، trustworthiness</td><td><b>Veracity</b></td></tr>
+      <tr><td>useless unless turned into value</td><td><b>Value</b></td></tr>
+    </tbody></table></div>
+
+    <h4>10. سؤال Reflex و Planning و Heuristic</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>السؤال</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>If implemented as a <b>Reflex</b> agent…</td><td><b>will not consider future consequences</b></td></tr>
+      <tr><td>If implemented as a <b>Planning</b> agent…</td><td><b>All of the above</b></td></tr>
+      <tr><td>improve the performance of heuristic search</td><td><b>quality of the heuristic function</b></td></tr>
+      <tr><td>«heuristic guarantees optimal» (True/False)</td><td><b>False</b></td></tr>
+    </tbody></table></div>
+
+    <h4>11. الأرقام</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>السؤال</th><th>الإجابة</th></tr></thead><tbody>
+      <tr><td>TSP number of paths</td><td><b>(n − 1)!</b></td></tr>
+      <tr><td>Tic-Tac-Toe paths</td><td><b>9!</b></td></tr>
+      <tr><td>8-puzzle states</td><td><b>181,440 (9!/2)</b></td></tr>
+      <tr><td>Vacuum world states</td><td><b>n · 2ⁿ</b> (مكانين = 8)</td></tr>
+      <tr><td>Bidirectional time</td><td><b>b^(d/2) + b^(d/2)</b></td></tr>
+      <tr><td>g(N) للـ puzzle اللي اليوزر إداه (البداية)</td><td><b>0</b></td></tr>
+    </tbody></table></div>
+
+    <h4>12. سؤال الـ Fringe (data structure)</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>الـ Algorithm</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>DFS</td><td><b>Stack (LIFO)</b></td></tr>
+      <tr><td>BFS</td><td><b>Queue (FIFO)</b></td></tr>
+      <tr><td>BFS + Bidirectional</td><td><b>Queue for both</b></td></tr>
+      <tr><td>Best-First + UCS</td><td><b>Priority queue for both</b></td></tr>
+    </tbody></table></div>
+
+    <h4>13. سؤال Search algorithm</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>لو لقيت في السؤال</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>stuck in local optimum / maximum</td><td><b>Hill Climbing</b></td></tr>
+      <tr><td>fill cells with fewer options first / most promising</td><td><b>Best-First</b> (heuristic)</td></tr>
+      <tr><td>vast search space of chess</td><td><b>Alpha-Beta Pruning</b></td></tr>
+      <tr><td>brute force chess: what affects time most</td><td><b>number of possible moves at each turn</b></td></tr>
+      <tr><td>Go tree: DFS / BFS / IDS statements</td><td><b>All of the mentioned</b></td></tr>
+      <tr><td>([A], [B A], [D B A]) can be part of…</td><td><b>a &amp; b</b> (Backtracking SL + DFS closed)</td></tr>
+      <tr><td>node visited only by…</td><td>اعمل trace: Backtracking وDFS بنفس الترتيب، وBFS بيمشي level by level</td></tr>
+    </tbody></table></div>
+
+    <h4>14. سؤال Games (Minimax و Alpha-Beta)</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>السؤال</th><th>اختار</th></tr></thead><tbody>
+      <tr><td>Minimax في Chess / Go «minimizes possible loss»</td><td><b>True</b></td></tr>
+      <tr><td>Chess / Go «Adversarial Planning»</td><td><b>True</b></td></tr>
+      <tr><td>N-Queens / Sudoku: Minimax أو Adversarial</td><td><b>False</b></td></tr>
+      <tr><td>Alpha-Beta is used to…</td><td><b>reduce the number of nodes explored</b></td></tr>
+      <tr><td>Minimax is ultimately used to…</td><td><b>determine the best move for the current player</b></td></tr>
+      <tr><td>Bidirectional search feasible in chess</td><td><b>False</b></td></tr>
+    </tbody></table></div>
+
+    <h4>15. أفخاخ True/False (الجملة بتتعكس بين النماذج)</h4>
+    <div class="tw"><table class="hk"><thead><tr><th>لو الجملة بتقول</th><th>الإجابة</th></tr></thead><tbody>
+      <tr><td>ML = prediction، DM = discovery</td><td><b>True</b></td></tr>
+      <tr><td>DM = prediction، ML = discovery</td><td><b>False</b></td></tr>
+      <tr><td>y real-valued ← Classification</td><td><b>False</b> (Regression)</td></tr>
+      <tr><td>y categorical ← Classification</td><td><b>True</b></td></tr>
+      <tr><td>mark % ← classification، pass/fail ← regression</td><td><b>False</b> (معكوسة)</td></tr>
+      <tr><td>board represented by an arc</td><td><b>False</b></td></tr>
+      <tr><td>board represented by a vertex / node</td><td><b>True</b></td></tr>
+      <tr><td>N-Queens: BFS/DFS explore a node more than once</td><td><b>False</b></td></tr>
+      <tr><td>smallest domain first reduces the branching factor</td><td><b>True</b></td></tr>
+    </tbody></table></div>
+
+    <h4>16. طريقة حل Alpha-Beta بسرعة</h4>
+    <ol>
+      <li>اتأكد من اتجاه الزيارة: left to right ولا right to left.</li>
+      <li>احسب أول فرع كامل، وقيمته تبقى α عند الـ root (MAX).</li>
+      <li>في كل MIN بعده: أول ورقة تطلع ≤ α، اقطع الأوراق اللي بعدها في نفس الـ MIN.</li>
+      <li>لو مفيش ورقة نزلت تحت α لحد آخر الفرع، يبقى مفيش قطع في الفرع ده.</li>
+    </ol>
   </article>
 </section>
 
