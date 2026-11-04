@@ -149,6 +149,11 @@ pre.fig{direction:ltr;text-align:left;background:var(--fig);border:1px solid var
 .gsec.key ol{gap:7px}
 .gsec.hints{background:var(--flag-bg);border-color:var(--flag)}
 .gsec.hints h3{color:var(--flag)}
+.kp{gap:14px!important}
+.kp>li>b{display:block;margin-bottom:4px}
+.kp p{margin:0 0 6px}
+.kp .how{background:var(--accent-soft);border-radius:8px;padding:6px 10px}
+.kp .how span{font-weight:600;color:var(--accent)}
 footer{margin-top:28px;color:var(--muted);font-size:13px}
 @media (prefers-reduced-motion:no-preference){.exp{animation:fade .18s ease-out}@keyframes fade{from{opacity:.4}to{opacity:1}}}
 </style>
@@ -395,26 +400,80 @@ footer{margin-top:28px;color:var(--muted);font-size:13px}
 
   <!-- ===== Key points ===== -->
   <article class="gsec key" id="gk">
-    <h3>أهم النقط</h3>
-    <ol>
-      <li>الأربع approaches: Thinking/Acting × Humanly/Rationally، وكل واحدة ليها اسم وأصحاب تعريفات.</li>
-      <li>الـ Turing Test = Acting Humanly، والـ Total Turing Test بيضيف Computer Vision وRobotics.</li>
-      <li>الـ Chinese Room بيقول إن Strong AI غلط، لأن مفيش understanding.</li>
-      <li>Weak AI = simulate، وStrong AI = mind حقيقي. وANI ← AGI ← ASI.</li>
-      <li>Agent = Sensors + Actuators، والـ rational agent بيعمل maximize للـ performance measure.</li>
-      <li>PEAS: اعرف تفرّق بين P وE وA وS في أي مثال.</li>
-      <li>FP = إنذار كاذب (Type I)، وFN = حاجة فاتتنا (Type II).</li>
-      <li>Goal-based = عايز يوصل لهدف، وCost-based = الأخطاء ليها تكلفة.</li>
-      <li>جدول الـ environments: Semi-dynamic = Chess with clock، وStrategic = deterministic + خصم.</li>
-      <li>AI ⊃ ML ⊃ DL. والـ ML بيعمل prediction، والـ DM بيعمل discovery (KDD).</li>
-      <li>Classification = category، وRegression = رقم، وClustering = مجموعات من غير labels، وRL = rewards.</li>
-      <li>الـ 5 Vs: Volume, Velocity, Variety, Veracity, Value.</li>
-      <li>Reflex = IS، وPlanning = WOULD BE. والـ heuristic مش بيضمن الحل الأمثل.</li>
-      <li>DFS = Stack، وBFS = Queue، وUCS وBest-First = Priority Queue، وBidirectional = Queue.</li>
-      <li>BFS وIDS بيضمنوا أقصر حل، وIDS عنده space قليل زي DFS.</li>
-      <li>g = من الـ start لـ N، وh = من N للـ goal، وf = g + h.</li>
-      <li>Hill climbing ممكن يقف عند local maximum.</li>
-      <li>Minimax للألعاب الثنائية، وAlpha-Beta = نفس النتيجة بـ nodes أقل.</li>
+    <h3>أهم النقط (بالشرح وإزاي تحل)</h3>
+    <p class="hint">كل نقطة معاها شرح قصير، وبعده «إزاي تحل» عشان لو جالك سؤال شبهها تعرف تفكر فيه.</p>
+    <ol class="kp">
+      <li><b>الأربع approaches: Thinking/Acting × Humanly/Rationally</b>
+        <p>كل approach بيجاوب على سؤالين: إحنا مهتمين بالتفكير الداخلي (Thinking) ولا بالتصرف (Acting)؟ والمقياس هو البني آدم (Humanly) ولا الصح المثالي (Rationally)؟ وأصحاب التعريفات: Bellman وHaugeland = Thinking Humanly، وCharniak &amp; McDermott وWinston = Thinking Rationally، وRich &amp; Knight وKurzweil = Acting Humanly، وNilsson وPoole = Acting Rationally.</p>
+        <p class="how"><span>إزاي تحل:</span> دوّر على الكلمة المفتاحية. «human thinking / minds» يبقى Thinking Humanly. «computational models / computations» يبقى Thinking Rationally. «things people are better at / functions that require intelligence when performed by people» يبقى Acting Humanly. «intelligent agents / intelligent behavior in artifacts» يبقى Acting Rationally.</p></li>
+
+      <li><b>الـ Turing Test = Acting Humanly، والـ Total Turing Test بيضيف Computer Vision وRobotics</b>
+        <p>الـ Turing Test بيقيس «السلوك» بس: الآلة تنجح لو البني آدم مقدرش يعرف إنها آلة. عشان ينجح محتاج NLP وKnowledge Representation وReasoning وMachine Learning. والـ Total Turing Test بيضيف الجسم: يشوف (Vision) ويتحرك ويمسك حاجات (Robotics).</p>
+        <p class="how"><span>إزاي تحل:</span> لو السؤال «Turing Test measures intelligence as…» اختار «a human’s inability to detect a machine». ولو «crucial to pass a Total Turing Test» والاختيارات فيها كل المجالات + «All of the above»، اختار All. ولو بيسأل «الإضافة بس» اختار Vision + Robotics.</p></li>
+
+      <li><b>الـ Chinese Room بيقول إن Strong AI غلط، لأن مفيش understanding</b>
+        <p>Searle قاعد في أوضة ومعاه كتاب تعليمات، بيرد على رسايل صيني صح من غير ما يفهم صيني. يعني ممكن تعدّي الـ Turing Test وانت مش فاهم حاجة، وبالتالي مفيش thinking ولا mind.</p>
+        <p class="how"><span>إزاي تحل:</span> أي جملة بتقول «Searle concluded Strong AI is false» تبقى True. ولو قالت إنه أثبت إن الآلة بتفهم تبقى False. وفي الـ matching: «challenging the idea that computer manipulation equals true understanding» يبقى Chinese Room.</p></li>
+
+      <li><b>Weak AI = simulate، وStrong AI = mind حقيقي، وANI ← AGI ← ASI</b>
+        <p>Weak AI معناه إننا نقدر «نحاكي» الذكاء. Strong AI معناه إن الآلة يبقى عندها وعي وفهم بجد. ANI = task واحدة كويس جدًا، زي Siri أو Recommender أو برنامج شطرنج. AGI = ذكاء عام زي الإنسان. ASI = أذكى من الإنسان.</p>
+        <p class="how"><span>إزاي تحل:</span> لو فيه كلمة «simulate» أو «specific tasks without consciousness» يبقى Weak / ANI. ولو فيه «consciousness / understanding / feeling / general problem-solving» يبقى Strong / AGI.</p></li>
+
+      <li><b>Agent = Sensors + Actuators، والـ rational agent بيعمل maximize للـ performance measure</b>
+        <p>الـ agent بيحس بالـ sensors، ويفكر، ويتصرف بالـ actuators. والـ rational agent بيختار الـ action اللي «متوقع» يجيب أعلى performance، بناءً على اللي حس بيه لحد دلوقتي واللي يعرفه.</p>
+        <p class="how"><span>إزاي تحل:</span> في أسئلة الـ Vacuum امشي على الكود سطر سطر: Dirty يبقى Suck، غير كده روح للمكان التاني. ولو سألك عن عدد الـ states: عدد الأماكن × 2^(عدد الأماكن). مكانين = 2 × 4 = 8.</p></li>
+
+      <li><b>PEAS: اعرف تفرّق بين P وE وA وS في أي مثال</b>
+        <p>P = بنقيس النجاح بإيه (أمان، سرعة، سعر، دقة). E = المكان والحاجات اللي حوالين الـ agent. A = الحاجات اللي بيعمل بيها (عجل، فرامل، فرشة، «placing a stone»). S = الحاجات اللي بيحس بيها (كاميرا، GPS، keyboard، incoming emails).</p>
+        <p class="how"><span>إزاي تحل:</span> اسأل نفسك عن الحاجة اللي في السؤال: هي «بتعمل» ولا «بتحس» ولا «بنقيس بيها» ولا «حوالين» الـ agent؟ بتعمل = A، بتحس = S، بنقيس = P، حواليه = E.</p></li>
+
+      <li><b>FP = إنذار كاذب (Type I)، وFN = حاجة فاتتنا (Type II)</b>
+        <p>حدد الأول إيه هو الـ «Positive» في السؤال (spam، fraud، مرض، شخص غريب). FP = النظام قال Positive وهو غلط. FN = النظام قال Negative والحقيقة كانت Positive.</p>
+        <p class="how"><span>إزاي تحل:</span> «flagging legitimate transaction as fraud» يبقى FP. «unauthorized person allowed in» يبقى FP (اتقبل وهو مش المفروض). «serious illness missed» يبقى FN. «important email deleted as spam» يبقى FP.</p></li>
+
+      <li><b>Goal-based = عايز يوصل لهدف، وCost-based = الأخطاء ليها تكلفة</b>
+        <p>Goal-based: الأفعال بتتحدد بالهدف (روح أوضة 179، ترجم صح، خلّص المشروع). Cost-based: بنقلّل تكلفة الأخطاء على المدى الطويل، وبعض الأخطاء أخطر من بعض (مثال الـ spam filter: Agent 1 غلط أقل بس ضيّع إيميلات مهمة).</p>
+        <p class="how"><span>إزاي تحل:</span> لو الجملة فيها «minimise cost / errors of differing severity / most cost-effective / annoying if unsuccessful» يبقى Cost-based. ولو فيها «achieve goal / accurate / reach destination / meet deadlines» يبقى Goal-based.</p></li>
+
+      <li><b>جدول الـ environments: Semi-dynamic = Chess with clock، وStrategic = deterministic + خصم</b>
+        <p>لكل لعبة أو مشكلة اسأل 7 أسئلة: شايف كل حاجة؟ فيه عشوائية؟ فيه خصم؟ القرارات مترابطة؟ العالم بيتغير وانا بفكر؟ القيم محدودة ولا continuous؟ لوحدي ولا فيه agents تانيين؟</p>
+        <p class="how"><span>إزاي تحل:</span> لعبة لوحة بخصم (Chess، Go) = Fully, Strategic, Sequential, Discrete, Multi، وStatic لو من غير ساعة وSemi-dynamic لو بساعة. لغز لوحدك (N-Queens، Sudoku) = Static وDiscrete وSingle. عربية أو روبوت في الشارع = Partially, Stochastic, Dynamic, Continuous. وفي سؤال «can NOT be» اختار الصفة اللي بتعارض ده.</p></li>
+
+      <li><b>AI ⊃ ML ⊃ DL، والـ ML بيعمل prediction، والـ DM بيعمل discovery (KDD)</b>
+        <p>الـ ML بيتعلم من داتا معروفة عشان يتنبأ (يشخّص مرض، يلعب شطرنج). الـ Data Mining بيدوّر في الداتا عشان يطلّع أنماط ماكناش نعرفها (trends، patterns في المبيعات)، وهو خطوة التحليل في KDD.</p>
+        <p class="how"><span>إزاي تحل:</span> «learns to predict / learns to play / learns to navigate» يبقى ML. «identifies patterns / analyses trends / discovers insights from feedback» يبقى DM. ولو كلمة «petabytes / vast amounts / unstructured large data» يبقى Big Data. ولو جملة True/False، اتأكد إن ML جنب prediction وDM جنب discovery، ولو معكوسين تبقى False.</p></li>
+
+      <li><b>Classification = category، وRegression = رقم، وClustering = مجموعات من غير labels، وRL = rewards</b>
+        <p>Supervised يعني عندنا الإجابات (labels): لو الإجابة نوع أو فئة يبقى Classification، ولو رقم continuous يبقى Regression. Unsupervised يعني مفيش labels: Clustering (نجمّع المتشابه) أو Dimensionality Reduction (نقلّل الـ features). وReinforcement = تجربة وخطأ ومكافأة.</p>
+        <p class="how"><span>إزاي تحل:</span> اسأل «الناتج إيه؟». سعر، نسبة، مدة، درجة حرارة، عمر = Regression. Spam/Not، Pass/Fail، نوع سرطان، تصنيف أخبار = Classification. Segmentation، Recommender، تجميع documents = Clustering. روبوت أو لعبة بتتعلم بالـ reward = RL. ودمج كذا model = Ensemble.</p></li>
+
+      <li><b>الـ 5 Vs: Volume, Velocity, Variety, Veracity, Value</b>
+        <p>Volume = قد إيه الداتا كبيرة. Velocity = بتيجي بسرعة قد إيه. Variety = أنواعها مختلفة (صور، فيديو، نصوص، و80% منها unstructured). Veracity = نقدر نثق فيها؟ (messy). Value = بتفيدنا بإيه.</p>
+        <p class="how"><span>إزاي تحل:</span> امسك كلمة واحدة لكل V: «amount» = Volume، «speed» = Velocity، «types» = Variety، «trust / messiness / quality» = Veracity، «useless unless value» = Value.</p></li>
+
+      <li><b>Reflex = IS، وPlanning = WOULD BE، والـ heuristic مش بيضمن الحل الأمثل</b>
+        <p>الـ Reflex agent بيتصرف على اللي قدامه دلوقتي ومش بيفكر في اللي جاي. الـ Planning agent بيتخيل نتايج كل action، ومحتاج model للعالم وgoal. والـ heuristic قاعدة خبرة بتقرّبك للحل بسرعة، بس من غير ضمان إنه الأحسن.</p>
+        <p class="how"><span>إزاي تحل:</span> «current percept / no future consequences» يبقى Reflex. «consequences / model / would be / goal» يبقى Planning، ولو كل الاختيارات صفات Planning اختار «All of the above». وأي جملة بتقول «heuristic guarantees optimal» تبقى غلط.</p></li>
+
+      <li><b>DFS = Stack، وBFS = Queue، وUCS وBest-First = Priority Queue، وBidirectional = Queue</b>
+        <p>DFS بيحط الأولاد في أول الـ fringe، فآخر واحد دخل يطلع الأول (Stack). BFS بيحطهم في الآخر (Queue). UCS وBest-First بيرتّبوا الـ fringe بقيمة (g أو f)، فـ Priority Queue. والـ Bidirectional = اتنين BFS.</p>
+        <p class="how"><span>إزاي تحل:</span> في أسئلة الـ trace اكتب الـ fringe بإيدك خطوة خطوة: شيل أول عنصر، وحط أولاده في الأول لو DFS أو في الآخر لو BFS. مثال: (1) ← (2,3) ← DFS: (4,5,3) ← (8,9,5,3). BFS: (3,4,5) ← (4,5,6,7).</p></li>
+
+      <li><b>BFS وIDS بيضمنوا أقصر حل، وIDS عنده space قليل زي DFS</b>
+        <p>BFS بيمشي level by level، فأول goal يلاقيه هو الأقرب، بس بيخزّن كل الـ level فالذاكرة كبيرة. DFS ذاكرته قليلة بس ممكن يتوه في فرع عميق أو لا نهائي. IDS بيعمل DFS بعمق 0 ثم 1 ثم 2… فبياخد الميزتين.</p>
+        <p class="how"><span>إزاي تحل:</span> «shortest path guaranteed» يبقى BFS أو IDS. «low memory» يبقى DFS. «infinite depth problem» يبقى عيب DFS. «huge storage with high branching factor» يبقى عيب BFS. ولو كلهم مذكورين صح اختار All. والـ Bidirectional: الوقت ≈ 2 × b^(d/2) بدل b^d.</p></li>
+
+      <li><b>g = من الـ start لـ N، وh = من N للـ goal، وf = g + h</b>
+        <p>g تكلفة فعلية اتصرفت لحد N. h «تخمين» للباقي لحد الـ goal. f هي اللي بنرتّب بيها: لو f = h يبقى Greedy، ولو f = g + h بنحسب الاتنين.</p>
+        <p class="how"><span>إزاي تحل:</span> لو h(N) = رقم وسألك بيمثّل إيه، اختار «estimate from N to goal». ولو سألك g لـ board لسه مدّيه اليوزر (البداية)، الإجابة 0. ولو اتعملت k خطوات، g = k. وفي الـ 8-puzzle: misplaced = عد الـ tiles اللي مش في مكانها (من غير الفاضي)، وManhattan = اجمع (فرق الصف + فرق العمود) لكل tile.</p></li>
+
+      <li><b>Hill climbing ممكن يقف عند local maximum</b>
+        <p>Hill Climbing بيختار أحسن جار بس وينسى الباقي، فلو وصل لقمة صغيرة مفيش جار أحسن منها بيقف، حتى لو مش هي الحل. والـ Best-First مش بيقع في ده بنفس السهولة، لأنه بيحتفظ بـ open list ويقدر يرجع لأي node.</p>
+        <p class="how"><span>إزاي تحل:</span> أي سؤال فيه «stuck / local optimum / local maximum / local minimum» الإجابة Hill Climbing (أو Steepest descent).</p></li>
+
+      <li><b>Minimax للألعاب الثنائية، وAlpha-Beta = نفس النتيجة بـ nodes أقل</b>
+        <p>Minimax: من تحت لفوق، الـ MIN ياخد أصغر قيمة في أولاده والـ MAX ياخد أكبر قيمة. Alpha-Beta: بيمشي depth-first ويقطع أي فرع واضح إنه مش هيغيّر القرار. α (عند MAX) بتطلع بس، وβ (عند MIN) بتنزل بس.</p>
+        <p class="how"><span>إزاي تحل:</span> (1) احسب أول فرع كامل، وخلي قيمته هي α عند الـ root. (2) في كل MIN بعده: أول ما ورقة تطلع ≤ α، اقطع باقي أولاده. (3) في MAX تحت MIN بيحصل نفس الشيء بالعكس: أول ما ورقة تطلع ≥ β، اقطع. (4) خلي بالك من اتجاه الزيارة (left to right أو right to left). وأي لعبة لاعب واحد (N-Queens، Sudoku) مالهاش Minimax ولا Adversarial.</p></li>
     </ol>
   </article>
 
